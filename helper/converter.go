@@ -10,33 +10,41 @@ import (
 const (
 
 	//single digits numbers
-	ZeroAsString  string = "sıfır"
-	OneAsString   string = "bir"
-	TwoAsString   string = "iki"
-	ThreeAsString string = "üç"
-	FourAsString  string = "dörd"
-	FiveAsString  string = "beş"
-	SixAsString   string = "altı"
-	SevenAsString string = "yeddi"
-	EightAsString string = "səkkiz"
-	NineAsString  string = "doqquz"
+	ZeroAsString  string = "sıfır"  // 0
+	OneAsString   string = "bir"    // 1
+	TwoAsString   string = "iki"    // 2
+	ThreeAsString string = "üç"     // 3
+	FourAsString  string = "dörd"   // 4
+	FiveAsString  string = "beş"    // 5
+	SixAsString   string = "altı"   // 6
+	SevenAsString string = "yeddi"  // 7
+	EightAsString string = "səkkiz" // 8
+	NineAsString  string = "doqquz" // 9
 
 	//two digits numbers
-	TenAsString     string = "on"
-	TwentyAsString  string = "iyirmi"
-	ThirtyAsString  string = "otuz"
-	FortyAsString   string = "qırx"
-	FiftyAsString   string = "əlli"
-	SixtyAsString   string = "altmış"
-	SeventyAsString string = "yetmiş"
-	EightyAsString  string = "səksən"
-	NinetyAsString  string = "doxsan"
+	TenAsString     string = "on"     // 10
+	TwentyAsString  string = "iyirmi" // 20
+	ThirtyAsString  string = "otuz"   // 30
+	FortyAsString   string = "qırx"   // 40
+	FiftyAsString   string = "əlli"   // 50
+	SixtyAsString   string = "altmış" // 60
+	SeventyAsString string = "yetmiş" // 70
+	EightyAsString  string = "səksən" // 80
+	NinetyAsString  string = "doxsan" // 90
 
 	//three digits numbers
-	HundredAsString  string = "yüz"
-	ThousandAsString string = "min"
-	MillionAsString  string = "milyon"
-	BillionAsString  string = "milyard"
+	HundredAsString     string = "yüz"        // 10^2
+	ThousandAsString    string = "min"        // 10^3
+	MillionAsString     string = "milyon"     // 10^6
+	BillionAsString     string = "milyard"    // 10^9
+	TrillionAsString    string = "trilyon"    // 10^12
+	QuadrillionAsString string = "katrilyon"  // 10^15
+	QuintillionAsString string = "kentilyon"  // 10^18
+	SextillionAsString  string = "sekstilyon" // 10^21
+	SeptillionAsString  string = "septilyon"  // 10^24
+	OctillionAsString   string = "oktilyon"   // 10^27
+	NonillionAsString   string = "nonilyon"   // 10^30
+	//TODO Add remaining ones whenever have time
 )
 
 var digits = []string{
@@ -68,7 +76,11 @@ var tens = []string{
 // Convert integer given in str to word
 func ConvertIntPart(str string) string {
 
+	//TODO 'str' may contain invalid symbols, need to sanitize it before processing
 	//it contains separator like `,`
+
+	//TODO 'str' may contain symbols like `,` to separate integers for readability
+
 	//starting from right hand side, pick up triples and start process it
 
 	//used to indicate level 10^3, 10^6
@@ -111,8 +123,22 @@ func getKeyword(position int) (keyword string, err error) {
 		return MillionAsString, nil
 	case 4:
 		return BillionAsString, nil
+	case 5:
+		return TrillionAsString, nil
+	case 6:
+		return QuadrillionAsString, nil
+	case 7:
+		return QuintillionAsString, nil
+	case 8:
+		return SextillionAsString, nil
+	case 9:
+		return SeptillionAsString, nil
+	case 10:
+		return OctillionAsString, nil
+	case 11:
+		return NonillionAsString, nil
 	default:
-		return "", errors.New(fmt.Sprintf("Position: %d not supported", position))
+		return "", errors.New(fmt.Sprintf("Max supported number level: %s", NonillionAsString))
 	}
 }
 

@@ -3,6 +3,8 @@ package helper
 import (
 	"errors"
 	"fmt"
+	"math"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -44,7 +46,12 @@ const (
 	SeptillionAsString  string = "septilyon"  // 10^24
 	OctillionAsString   string = "oktilyon"   // 10^27
 	NonillionAsString   string = "nonilyon"   // 10^30
+
 	//TODO Add remaining ones whenever have time
+)
+
+const (
+	NegativeAsWord string = "mənfi" // -
 )
 
 var digits = []string{
@@ -73,14 +80,58 @@ var tens = []string{
 	NinetyAsString,
 }
 
+func SpellNumber(str string) (string, error) {
+
+	//check whether number is in valid format
+	if ok := validNumberRegex.MatchString(str); !ok {
+		return "", errors.New(fmt.Sprintf("Input: %s invalid", str))
+	}
+
+	//it may contain separator like `,` placed every 3 decimal places for numbers larger than 999
+	str = strings.ReplaceAll(str, ",", "")
+
+	isFloatingNumber := strings.Contains(str, ".")
+
+	if isFloatingNumber {
+		return "", errors.New(fmt.Sprintf("Floating number conversion not implemented"))
+	} else {
+		wordBuilder := make([]string, 0)
+
+		var intAbsVal int
+		if sign, intPart, err := GetSignAndInteger(str); err != nil {
+			return "", err
+		} else {
+			wordBuilder = append(wordBuilder, sign)
+			intAbsVal = int(math.Abs(float64(intPart)))
+		}
+
+		spelledInteger := ConvertIntPart(intAbsVal)
+
+		wordBuilder = append(wordBuilder, spelledInteger)
+
+		return strings.Join(wordBuilder, " "), nil
+	}
+}
+
+func GetSignAndInteger(str string) (string, int, error) {
+	var sign string
+
+	if numberAsInt, err := strconv.Atoi(str); err == nil {
+
+		if numberAsInt < 0 {
+			sign = NegativeAsWord
+		}
+
+		return sign, numberAsInt, nil
+	} else {
+		return "", 0, err
+	}
+}
+
 // Convert integer given in str to word
-func ConvertIntPart(str string) string {
+func ConvertIntPart(intPart int) string {
 
-	//TODO 'str' may contain invalid symbols, need to sanitize it before processing
-	//it contains separator like `,`
-
-	//TODO 'str' may contain symbols like `,` to separate integers for readability
-
+	str := strconv.Itoa(intPart)
 	//starting from right hand side, pick up triples and start process it
 
 	//used to indicate level 10^3, 10^6
@@ -251,3 +302,9 @@ func tripleToWord(triple string) (string, error) {
 
 	return strings.Join(textBuilder, " "), nil
 }
+
+//TODO make regex be valid for numbers containing symbol: ','
+var validNumberRegex = regexp.MustCompile("^-?\\d+(\\.\\d+)?$")
+
+//var validNumberRegexForWholePositive = regexp.MustCompile("/^(0|[1-9]\\d*)$/\n")
+//var validNumberRegexForWholePositive = regexp.MustCompile("/^(0|[1-9]\\d*)$/\n")

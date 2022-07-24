@@ -2,92 +2,98 @@ package helper
 
 import (
 	"reflect"
+	"strconv"
 	"testing"
 )
 
-type testCase struct {
+type testCaseConvertIntPart struct {
+	description string
+	given       int
+	expected    string
+}
+
+type testCaseSpellNumber struct {
 	description string
 	given       string
 	expected    string
 }
 
 func Test_convertIntPart_WhereTwoDigitsNumber(t *testing.T) {
-	twoDigitsCases := testCasesForTwoDigitsNumbers()
-	for _, testCase := range twoDigitsCases {
-		actual := ConvertIntPart(testCase.given)
+	twoDigitsCases := testCaseConvertIntPartsForTwoDigitsNumbers()
+	for _, testCaseConvertIntPart := range twoDigitsCases {
+		actual := ConvertIntPart(testCaseConvertIntPart.given)
 
-		if !reflect.DeepEqual(actual, testCase.expected) {
+		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			t.Errorf("For %s "+
-				"\n Given: %s, len: %d "+
+				"\n Given: %d, len: %d "+
 				"\n Expected: %s, len: %d"+
 				"\n Got: %s, len: %d",
-				testCase.description,
-				testCase.given, len(testCase.given),
-				testCase.expected, len(testCase.expected),
+				testCaseConvertIntPart.description,
+				testCaseConvertIntPart.given, len(strconv.Itoa(testCaseConvertIntPart.given)),
+				testCaseConvertIntPart.expected, len(testCaseConvertIntPart.expected),
 				actual, len(actual))
 		}
 	}
 }
 
 func Test_convertIntPart_WhereSingleDigitsNumber(t *testing.T) {
-	singleDigitsCases := testCasesForSingleDigitsNumbers()
-	for _, testCase := range singleDigitsCases {
-		actual := ConvertIntPart(testCase.given)
+	singleDigitsCases := testCaseConvertIntPartsForSingleDigitsNumbers()
+	for _, testCaseConvertIntPart := range singleDigitsCases {
+		actual := ConvertIntPart(testCaseConvertIntPart.given)
 
-		if !reflect.DeepEqual(actual, testCase.expected) {
+		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			t.Errorf("For %s "+
-				"\n Given: %s, len: %d "+
+				"\n Given: %d, len: %d "+
 				"\n Expected: %s, len: %d"+
 				"\n Got: %s, len: %d",
-				testCase.description,
-				testCase.given, len(testCase.given),
-				testCase.expected, len(testCase.expected),
+				testCaseConvertIntPart.description,
+				testCaseConvertIntPart.given, len(strconv.Itoa(testCaseConvertIntPart.given)),
+				testCaseConvertIntPart.expected, len(testCaseConvertIntPart.expected),
 				actual, len(actual))
 		}
 	}
 }
 
 func Test_convertIntPart_WhereThreeDigitsNumber(t *testing.T) {
-	threeDigitsCases := testCasesForThreeDigitsNumbers()
-	for _, testCase := range threeDigitsCases {
-		actual := ConvertIntPart(testCase.given)
+	threeDigitsCases := testCaseConvertIntPartsForThreeDigitsNumbers()
+	for _, testCaseConvertIntPart := range threeDigitsCases {
+		actual := ConvertIntPart(testCaseConvertIntPart.given)
 
-		if !reflect.DeepEqual(actual, testCase.expected) {
-			//t.Error("For", testCase.description,
-			//	"\n Given: ", testCase.given,
-			//	"\n Expected: ", testCase.expected,
+		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
+			//t.Error("For", testCaseConvertIntPart.description,
+			//	"\n Given: ", testCaseConvertIntPart.given,
+			//	"\n Expected: ", testCaseConvertIntPart.expected,
 			//	"\n Got: ", actual)
 			t.Errorf("For %s "+
-				"\n Given: %s, len: %d "+
+				"\n Given: %d, len: %d "+
 				"\n Expected: %s, len: %d"+
 				"\n Got: %s, len: %d",
-				testCase.description,
-				testCase.given, len(testCase.given),
-				testCase.expected, len(testCase.expected),
+				testCaseConvertIntPart.description,
+				testCaseConvertIntPart.given, len(strconv.Itoa(testCaseConvertIntPart.given)),
+				testCaseConvertIntPart.expected, len(testCaseConvertIntPart.expected),
 				actual, len(actual))
 
 		}
 	}
 }
 
-
 func Test_convertIntPart_WhereFourDigitsNumber(t *testing.T) {
-	fourDigitsCases := testCasesForFourDigitsNumbers()
-	for _, testCase := range fourDigitsCases {
-		actual := ConvertIntPart(testCase.given)
+	fourDigitsCases := testCaseConvertIntPartsForFourDigitsNumbers()
+	for _, testCaseConvertIntPart := range fourDigitsCases {
+		actual := ConvertIntPart(testCaseConvertIntPart.given)
 
-		if !reflect.DeepEqual(actual, testCase.expected) {
-			//t.Error("For", testCase.description,
-			//	"\n Given: ", testCase.given,
-			//	"\n Expected: ", testCase.expected,
+		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
+			//t.Error("For", testCaseConvertIntPart.description,
+			//	"\n Given: ", testCaseConvertIntPart.given,
+			//	"\n Expected: ", testCaseConvertIntPart.expected,
 			//	"\n Got: ", actual)
 			t.Errorf("For %s "+
-				"\n Given: %s, len: %d "+
+				"\n Given: %d, len: %d "+
 				"\n Expected: %s, len: %d"+
 				"\n Got: %s, len: %d",
-				testCase.description,
-				testCase.given, len(testCase.given),
-				testCase.expected, len(testCase.expected),
+				testCaseConvertIntPart.description,
+				testCaseConvertIntPart.given, len(strconv.Itoa(testCaseConvertIntPart.given)),
+				testCaseConvertIntPart.expected, len(testCaseConvertIntPart.expected),
 				actual, len(actual))
 
 		}
@@ -95,334 +101,481 @@ func Test_convertIntPart_WhereFourDigitsNumber(t *testing.T) {
 }
 
 func Test_convertIntPart_WhereFiveDigitsNumber(t *testing.T) {
-	fiveDigitsCases := testCasesForFiveDigitsNumbers()
-	for _, testCase := range fiveDigitsCases {
-		actual := ConvertIntPart(testCase.given)
+	fiveDigitsCases := testCaseConvertIntPartsForFiveDigitsNumbers()
+	for _, testCaseConvertIntPart := range fiveDigitsCases {
+		actual := ConvertIntPart(testCaseConvertIntPart.given)
 
-		if !reflect.DeepEqual(actual, testCase.expected) {
-			//t.Error("For", testCase.description,
-			//	"\n Given: ", testCase.given,
-			//	"\n Expected: ", testCase.expected,
+		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
+			//t.Error("For", testCaseConvertIntPart.description,
+			//	"\n Given: ", testCaseConvertIntPart.given,
+			//	"\n Expected: ", testCaseConvertIntPart.expected,
 			//	"\n Got: ", actual)
 			t.Errorf("For %s "+
-				"\n Given: %s, len: %d "+
+				"\n Given: %d, len: %d "+
 				"\n Expected: %s, len: %d"+
 				"\n Got: %s, len: %d",
-				testCase.description,
-				testCase.given, len(testCase.given),
-				testCase.expected, len(testCase.expected),
+				testCaseConvertIntPart.description,
+				testCaseConvertIntPart.given, len(strconv.Itoa(testCaseConvertIntPart.given)),
+				testCaseConvertIntPart.expected, len(testCaseConvertIntPart.expected),
 				actual, len(actual))
 
 		}
 	}
 }
 
+func Test_SpellNumber_WhereNegativeIntegerNumber(t *testing.T) {
 
-func testCasesForSingleDigitsNumbers() []testCase {
-	return []testCase{
-		testCase{
+	fiveDigitsCases := testCaseSpellNumberForNegativeIntegerNumbers()
+	for _, testCaseConvertIntPart := range fiveDigitsCases {
+		actual, err := SpellNumber(testCaseConvertIntPart.given)
+
+		if err != nil {
+			t.Errorf("For %s "+
+				"\n Given: %s, len: %d "+
+				"\n Expected: %s, len: %d"+
+				"\n Got: %s",
+				testCaseConvertIntPart.description,
+				testCaseConvertIntPart.given, len(testCaseConvertIntPart.given),
+				testCaseConvertIntPart.expected, len(testCaseConvertIntPart.expected),
+				err.Error())
+		}
+
+		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
+			//t.Error("For", testCaseConvertIntPart.description,
+			//	"\n Given: ", testCaseConvertIntPart.given,
+			//	"\n Expected: ", testCaseConvertIntPart.expected,
+			//	"\n Got: ", actual)
+			t.Errorf("For %s "+
+				"\n Given: %s, len: %d "+
+				"\n Expected: %s, len: %d"+
+				"\n Got: %s, len: %d",
+				testCaseConvertIntPart.description,
+				testCaseConvertIntPart.given, len(testCaseConvertIntPart.given),
+				testCaseConvertIntPart.expected, len(testCaseConvertIntPart.expected),
+				actual, len(actual))
+
+		}
+	}
+}
+
+func Test_validNumberRegex(t *testing.T) {
+
+	type testCaseRegexValid struct {
+		given    string
+		expected bool
+	}
+	testCases := []testCaseRegexValid{
+		testCaseRegexValid{
+			given:    "10",
+			expected: true,
+		},
+		testCaseRegexValid{
+			given:    "-10",
+			expected: true,
+		},
+		testCaseRegexValid{
+			given:    "10.5",
+			expected: true,
+		},
+		testCaseRegexValid{
+			given:    "-10.5",
+			expected: true,
+		},
+		testCaseRegexValid{
+			given:    "0",
+			expected: true,
+		},
+		//testCaseRegexValid{
+		//	given:    "10,4.5",
+		//	expected: true,
+		//},
+		testCaseRegexValid{
+			given:    "some-test",
+			expected: false,
+		},
+		testCaseRegexValid{
+			given:    "12912%2",
+			expected: false,
+		},
+	}
+
+	for _, testCaseConvertIntPart := range testCases {
+		actual := validNumberRegex.MatchString(testCaseConvertIntPart.given)
+
+		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
+			t.Error("For", "Validation of  `validNumberRegex` ",
+				"\n Given: ", testCaseConvertIntPart.given,
+				"\n Expected: ", testCaseConvertIntPart.expected,
+				"\n Got: ", actual)
+		}
+	}
+
+}
+
+func testCaseConvertIntPartsForSingleDigitsNumbers() []testCaseConvertIntPart {
+	return []testCaseConvertIntPart{
+		testCaseConvertIntPart{
 			description: "Test Case: Single digit number",
-			given:       "0",
+			given:       0,
 			expected:    ZeroAsString,
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single digit number",
-			given:       "1",
+			given:       1,
 			expected:    OneAsString,
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single digit number",
-			given:       "2",
+			given:       2,
 			expected:    TwoAsString,
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single digit number",
-			given:       "3",
+			given:       3,
 			expected:    ThreeAsString,
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single digit number",
-			given:       "4",
+			given:       4,
 			expected:    FourAsString,
-		}, testCase{
+		}, testCaseConvertIntPart{
 			description: "Test Case: Single digit number",
-			given:       "5",
+			given:       5,
 			expected:    FiveAsString,
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single digit number",
-			given:       "6",
+			given:       6,
 			expected:    SixAsString,
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single digit number",
-			given:       "7",
+			given:       7,
 			expected:    SevenAsString,
-		}, testCase{
+		}, testCaseConvertIntPart{
 			description: "Test Case: Single digit number",
-			given:       "8",
+			given:       8,
 			expected:    EightAsString,
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single digit number",
-			given:       "9",
+			given:       9,
 			expected:    NineAsString,
 		},
 	}
 }
 
-func testCasesForTwoDigitsNumbers() []testCase {
-	return []testCase{
-		testCase{
+func testCaseConvertIntPartsForTwoDigitsNumbers() []testCaseConvertIntPart {
+	return []testCaseConvertIntPart{
+		testCaseConvertIntPart{
 			description: "Test Case: Single two digits number",
-			given:       "10",
+			given:       10,
 			expected:    "on",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single two digits number",
-			given:       "11",
+			given:       11,
 			expected:    "on bir",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single two digits number",
-			given:       "19",
+			given:       19,
 			expected:    "on doqquz",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single two digits number",
-			given:       "27",
+			given:       27,
 			expected:    "iyirmi yeddi",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single two digits number",
-			given:       "32",
+			given:       32,
 			expected:    "otuz iki",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single two digits number",
-			given:       "48",
+			given:       48,
 			expected:    "qırx səkkiz",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single two digits number",
-			given:       "54",
+			given:       54,
 			expected:    "əlli dörd",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single two digits number",
-			given:       "54",
-			expected:    "əlli dörd",
-		},
-		testCase{
-			description: "Test Case: Single two digits number",
-			given:       "67",
+			given:       67,
 			expected:    "altmış yeddi",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single two digits number",
-			given:       "70",
+			given:       70,
 			expected:    "yetmiş",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single two digits number",
-			given:       "82",
+			given:       82,
 			expected:    "səksən iki",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single two digits number",
-			given:       "96",
+			given:       96,
 			expected:    "doxsan altı",
 		}}
 }
 
-func testCasesForThreeDigitsNumbers() []testCase {
-	return []testCase{
-		testCase{
+func testCaseConvertIntPartsForThreeDigitsNumbers() []testCaseConvertIntPart {
+	return []testCaseConvertIntPart{
+		testCaseConvertIntPart{
 			description: "Test Case: Single three digits number",
-			given:       "100",
+			given:       100,
 			expected:    "bir yüz",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single three digits number",
-			given:       "111",
+			given:       111,
 			expected:    "bir yüz on bir",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single three digits number",
-			given:       "119",
+			given:       119,
 			expected:    "bir yüz on doqquz",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single three digits number",
-			given:       "271",
+			given:       271,
 			expected:    "iki yüz yetmiş bir",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single three digits number",
-			given:       "321",
+			given:       321,
 			expected:    "üç yüz iyirmi bir",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single three digits number",
-			given:       "485",
+			given:       485,
 			expected:    "dörd yüz səksən beş",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single three digits number",
-			given:       "541",
+			given:       541,
 			expected:    "beş yüz qırx bir",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single three digits number",
-			given:       "594",
+			given:       594,
 			expected:    "beş yüz doxsan dörd",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single three digits number",
-			given:       "670",
+			given:       670,
 			expected:    "altı yüz yetmiş",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single two digits number",
-			given:       "701",
+			given:       701,
 			expected:    "yeddi yüz bir",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single two digits number",
-			given:       "820",
+			given:       820,
 			expected:    "səkkiz yüz iyirmi",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: Single two digits number",
-			given:       "906",
+			given:       906,
 			expected:    "doqquz yüz altı",
 		}}
 }
 
-func testCasesForFourDigitsNumbers() []testCase {
-	return []testCase{
-		testCase{
+func testCaseConvertIntPartsForFourDigitsNumbers() []testCaseConvertIntPart {
+	return []testCaseConvertIntPart{
+		testCaseConvertIntPart{
 			description: "Test Case: four digits number",
-			given:       "1000",
+			given:       1000,
 			expected:    "bir min",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: four digits number",
-			given:       "1111",
+			given:       1111,
 			expected:    "bir min bir yüz on bir",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: four digits number",
-			given:       "1019",
+			given:       1019,
 			expected:    "bir min on doqquz",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: four digits number",
-			given:       "2701",
+			given:       2701,
 			expected:    "iki min yeddi yüz bir",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: four digits number",
-			given:       "3210",
+			given:       3210,
 			expected:    "üç min iki yüz on",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: three digits number",
-			given:       "4850",
+			given:       4850,
 			expected:    "dörd min səkkiz yüz əlli",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: three digits number",
-			given:       "5412",
+			given:       5412,
 			expected:    "beş min dörd yüz on iki",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: three digits number",
-			given:       "9594",
+			given:       9594,
 			expected:    "doqquz min beş yüz doxsan dörd",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: three digits number",
-			given:       "8670",
+			given:       8670,
 			expected:    "səkkiz min altı yüz yetmiş",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: three digits number",
-			given:       "7001",
+			given:       7001,
 			expected:    "yeddi min bir",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: three digits number",
-			given:       "8200",
+			given:       8200,
 			expected:    "səkkiz min iki yüz",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: three digits number",
-			given:       "9526",
+			given:       9526,
 			expected:    "doqquz min beş yüz iyirmi altı",
 		}}
 }
 
-func testCasesForFiveDigitsNumbers() []testCase {
-	return []testCase{
-		testCase{
+func testCaseConvertIntPartsForFiveDigitsNumbers() []testCaseConvertIntPart {
+	return []testCaseConvertIntPart{
+		testCaseConvertIntPart{
 			description: "Test Case: four digits number",
-			given:       "10000",
+			given:       10000,
 			expected:    "on min",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: four digits number",
-			given:       "11111",
+			given:       11111,
 			expected:    "on bir min bir yüz on bir",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: four digits number",
-			given:       "10192",
+			given:       10192,
 			expected:    "on min bir yüz doxsan iki",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: four digits number",
-			given:       "27021",
+			given:       27021,
 			expected:    "iyirmi yeddi min iyirmi bir",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: four digits number",
-			given:       "13210",
+			given:       13210,
 			expected:    "on üç min iki yüz on",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: three digits number",
-			given:       "48550",
+			given:       48550,
 			expected:    "qırx səkkiz min beş yüz əlli",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: three digits number",
-			given:       "95412",
+			given:       95412,
 			expected:    "doxsan beş min dörd yüz on iki",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: three digits number",
-			given:       "79594",
+			given:       79594,
 			expected:    "yetmiş doqquz min beş yüz doxsan dörd",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: three digits number",
-			given:       "86070",
+			given:       86070,
 			expected:    "səksən altı min yetmiş",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: three digits number",
-			given:       "70010",
+			given:       70010,
 			expected:    "yetmiş min on",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: three digits number",
-			given:       "81200",
+			given:       81200,
 			expected:    "səksən bir min iki yüz",
 		},
-		testCase{
+		testCaseConvertIntPart{
 			description: "Test Case: three digits number",
-			given:       "10001",
+			given:       10001,
 			expected:    "on min bir",
+		}}
+}
+
+func testCaseSpellNumberForNegativeIntegerNumbers() []testCaseSpellNumber {
+	return []testCaseSpellNumber{
+		testCaseSpellNumber{
+			description: "Test Case: negative number",
+			given:       "-10000",
+			expected:    "mənfi on min",
+		},
+		testCaseSpellNumber{
+			description: "Test Case: negative number",
+			given:       "-11111",
+			expected:    "mənfi on bir min bir yüz on bir",
+		},
+		testCaseSpellNumber{
+			description: "Test Case: negative number",
+			given:       "-10192",
+			expected:    "mənfi on min bir yüz doxsan iki",
+		},
+		testCaseSpellNumber{
+			description: "Test Case: negative number",
+			given:       "-27021",
+			expected:    "mənfi iyirmi yeddi min iyirmi bir",
+		},
+		testCaseSpellNumber{
+			description: "Test Case: negative number",
+			given:       "-13210",
+			expected:    "mənfi on üç min iki yüz on",
+		},
+		testCaseSpellNumber{
+			description: "Test Case: negative number",
+			given:       "-48550",
+			expected:    "mənfi qırx səkkiz min beş yüz əlli",
+		},
+		testCaseSpellNumber{
+			description: "Test Case: negative number",
+			given:       "-95412",
+			expected:    "mənfi doxsan beş min dörd yüz on iki",
+		},
+		testCaseSpellNumber{
+			description: "Test Case: negative number",
+			given:       "-79594",
+			expected:    "mənfi yetmiş doqquz min beş yüz doxsan dörd",
+		},
+		testCaseSpellNumber{
+			description: "Test Case: negative number",
+			given:       "-86070",
+			expected:    "mənfi səksən altı min yetmiş",
+		},
+		testCaseSpellNumber{
+			description: "Test Case: negative number",
+			given:       "-700",
+			expected:    "mənfi yeddi yüz",
+		},
+		testCaseSpellNumber{
+			description: "Test Case: negative number",
+			given:       "-81",
+			expected:    "mənfi səksən bir",
+		},
+		testCaseSpellNumber{
+			description: "Test Case: negative number",
+			given:       "-10000",
+			expected:    "mənfi on min",
 		}}
 }

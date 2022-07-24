@@ -21,7 +21,7 @@ type testCaseSpellNumber struct {
 func Test_convertIntPart_WhereTwoDigitsNumber(t *testing.T) {
 	twoDigitsCases := testCaseConvertIntPartsForTwoDigitsNumbers()
 	for _, testCaseConvertIntPart := range twoDigitsCases {
-		actual := ConvertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(testCaseConvertIntPart.given)
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			t.Errorf("For %s "+
@@ -39,7 +39,7 @@ func Test_convertIntPart_WhereTwoDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereSingleDigitsNumber(t *testing.T) {
 	singleDigitsCases := testCaseConvertIntPartsForSingleDigitsNumbers()
 	for _, testCaseConvertIntPart := range singleDigitsCases {
-		actual := ConvertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(testCaseConvertIntPart.given)
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			t.Errorf("For %s "+
@@ -57,7 +57,7 @@ func Test_convertIntPart_WhereSingleDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereThreeDigitsNumber(t *testing.T) {
 	threeDigitsCases := testCaseConvertIntPartsForThreeDigitsNumbers()
 	for _, testCaseConvertIntPart := range threeDigitsCases {
-		actual := ConvertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(testCaseConvertIntPart.given)
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			//t.Error("For", testCaseConvertIntPart.description,
@@ -80,7 +80,7 @@ func Test_convertIntPart_WhereThreeDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereFourDigitsNumber(t *testing.T) {
 	fourDigitsCases := testCaseConvertIntPartsForFourDigitsNumbers()
 	for _, testCaseConvertIntPart := range fourDigitsCases {
-		actual := ConvertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(testCaseConvertIntPart.given)
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			//t.Error("For", testCaseConvertIntPart.description,
@@ -103,7 +103,7 @@ func Test_convertIntPart_WhereFourDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereFiveDigitsNumber(t *testing.T) {
 	fiveDigitsCases := testCaseConvertIntPartsForFiveDigitsNumbers()
 	for _, testCaseConvertIntPart := range fiveDigitsCases {
-		actual := ConvertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(testCaseConvertIntPart.given)
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			//t.Error("For", testCaseConvertIntPart.description,

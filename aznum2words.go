@@ -35,19 +35,30 @@ const (
 	NinetyAsString  string = "doxsan" // 90
 
 	//three digits numbers
-	HundredAsString     string = "yüz"        // 10^2
-	ThousandAsString    string = "min"        // 10^3
-	MillionAsString     string = "milyon"     // 10^6
-	BillionAsString     string = "milyard"    // 10^9
-	TrillionAsString    string = "trilyon"    // 10^12
-	QuadrillionAsString string = "katrilyon"  // 10^15
-	QuintillionAsString string = "kentilyon"  // 10^18
-	SextillionAsString  string = "sekstilyon" // 10^21
-	SeptillionAsString  string = "septilyon"  // 10^24
-	OctillionAsString   string = "oktilyon"   // 10^27
-	NonillionAsString   string = "nonilyon"   // 10^30
+	HundredAsString string = "yüz" // 10^2
 
-	//TODO Add remaining ones whenever have time
+	//others
+	ThousandAsString        string = "min"            // 10^3
+	MillionAsString         string = "milyon"         // 10^6
+	BillionAsString         string = "milyard"        // 10^9
+	TrillionAsString        string = "trilyon"        // 10^12
+	QuadrillionAsString     string = "katrilyon"      // 10^15
+	QuintillionAsString     string = "kentilyon"      // 10^18
+	SextillionAsString      string = "sekstilyon"     // 10^21
+	SeptillionAsString      string = "septilyon"      // 10^24
+	OctillionAsString       string = "oktilyon"       // 10^27
+	NonillionAsString       string = "nonilyon"       // 10^30
+	DecillionAsString       string = "desilyon"       //10^33
+	UndecillionAsString     string = "undesilyon"     //10^36
+	DodecillionAsString     string = "dodesilyon"     //10^39
+	TredecillionAsString    string = "tredesilyon"    //10^42
+	CathodecillionAsString  string = "katordesilyon"  //10^45
+	KendecillionAsString    string = "kendesilyon"    //10^48
+	SexdecillionAsString    string = "seksdesilyon"   //10^51
+	SeptendecillionAsString string = "septendesilyon" //10^54
+	OctodecillionAsString   string = "oktodesilyon"   //10^57
+	NovedesillionAsString   string = "novemdesilyon"  //10^60
+	VigintillionAsString    string = "vigintilyon"    //10^63
 )
 
 const (
@@ -71,13 +82,17 @@ var floatingPointDict = map[int]string{
 	10_000_000:  "on milyonda",
 	100_000_000: "yüz milyonda",
 
-	1_000_000_000:   "milyardda",
+	1_000_000_000:   "bir milyardda",
 	10_000_000_000:  "on milyardda",
 	100_000_000_000: "yüz milyardda",
 
 	1_000_000_000_000:   "bir trilyonda",
 	10_000_000_000_000:  "on trilyonda",
 	100_000_000_000_000: "yüz trilyonda",
+
+	1_000_000_000_000_000:   "bir katrilyonda",
+	10_000_000_000_000_000:  "on katrilyonda",
+	100_000_000_000_000_000: "yüz katrilyonda",
 }
 
 var digits = []string{
@@ -107,7 +122,6 @@ var tens = []string{
 }
 
 func SpellNumber(str string) (string, error) {
-
 	//check whether number is in valid format
 	if ok := validNumberRegex.MatchString(str); !ok {
 		return "", errors.New(fmt.Sprintf("Input: %s invalid", str))
@@ -117,96 +131,95 @@ func SpellNumber(str string) (string, error) {
 	str = strings.ReplaceAll(str, ",", "")
 
 	isFloatingNumber := strings.Contains(str, ".")
-
 	if isFloatingNumber {
-		floatVal, err := strconv.ParseFloat(str, 64)
-
-		if err != nil {
-			return "", err
-		}
-
-		var sign string
-		if floatVal < 0 {
-			sign = NegativeAsWord
-		}
-
-		slices := strings.Split(str, ".")
-
-		intVal, err := strconv.Atoi(slices[0])
-		if err != nil {
-			return "", nil
-		}
-
-		intPartAsWord := convertIntPart(intVal)
-
-		floatingPart := slices[1]
-
-		//sanitize floatingPart by removing trailing zeros if exist
-		floatingPart = strings.TrimRight(floatingPart, "0")
-
-		floatingPartAsInteger, err := strconv.Atoi(floatingPart)
-		floatingPartAsIntegerWithWord := convertIntPart(floatingPartAsInteger)
-
-		cnt := len(floatingPart)
-		seperatorKey := int(math.Pow10(cnt))
-
-		suffix, ok := floatingPointDict[seperatorKey]
-
-		if !ok {
-			return "", errors.New(fmt.Sprintf("No seperator found"))
-		}
-
-		wordBuilder := make([]string, 0)
-		if len(sign) != 0 {
-			wordBuilder = append(wordBuilder, sign)
-		}
-		wordBuilder = append(wordBuilder, intPartAsWord)
-		wordBuilder = append(wordBuilder, SeparatorAsWord)
-		wordBuilder = append(wordBuilder, suffix)
-		wordBuilder = append(wordBuilder, floatingPartAsIntegerWithWord)
-
-		return strings.Join(wordBuilder, " "), nil
+		return handleFloatingPointNumberConversion(str)
 	} else {
-		wordBuilder := make([]string, 0)
-
-		var intAbsVal int
-		if sign, intPart, err := getSignAndInteger(str); err != nil {
-			return "", err
-		} else {
-			wordBuilder = append(wordBuilder, sign)
-			intAbsVal = int(math.Abs(float64(intPart)))
-		}
-
-		spelledInteger := convertIntPart(intAbsVal)
-
-		wordBuilder = append(wordBuilder, spelledInteger)
-
-		return strings.Join(wordBuilder, " "), nil
+		return handleIntegerNumberConversion(str)
 	}
 }
 
-func getSignAndInteger(str string) (string, int, error) {
-	var sign string
+func handleIntegerNumberConversion(intValueAsStr string) (string, error) {
+	wordBuilder := make([]string, 0)
 
-	if numberAsInt, err := strconv.Atoi(str); err == nil {
-
-		if numberAsInt < 0 {
-			sign = NegativeAsWord
-		}
-
-		return sign, numberAsInt, nil
-	} else {
-		return "", 0, err
+	sign, err := getSignKeywordAsWord(intValueAsStr)
+	if err != nil {
+		return "", err
 	}
+
+	if sign != "" {
+		wordBuilder = append(wordBuilder, sign)
+	}
+
+	spelledInteger := convertIntPart(intValueAsStr)
+
+	wordBuilder = append(wordBuilder, spelledInteger)
+
+	return strings.Join(wordBuilder, " "), nil
+}
+
+func handleFloatingPointNumberConversion(floatValueAsStr string) (string, error) {
+	signKeyword, err := getSignKeywordAsWord(floatValueAsStr)
+	if err != nil {
+		return "", err
+	}
+
+	slices := strings.Split(floatValueAsStr, ".")
+
+	intPartAsWord := convertIntPart(slices[0])
+
+	floatingPart := slices[1]
+
+	//sanitize floatingPart by removing trailing zeros if exist
+	floatingPart = strings.TrimRight(floatingPart, "0")
+
+	floatingPartAsIntegerWithWord := convertIntPart(floatingPart)
+
+	cnt := len(floatingPart)
+	seperatorKey := int(math.Pow10(cnt))
+
+	suffix, ok := floatingPointDict[seperatorKey]
+
+	if !ok {
+		return "", errors.New(fmt.Sprintf("No seperator found"))
+	}
+
+	wordBuilder := make([]string, 0)
+	if len(signKeyword) != 0 {
+		wordBuilder = append(wordBuilder, signKeyword)
+	}
+	wordBuilder = append(wordBuilder, intPartAsWord)
+	wordBuilder = append(wordBuilder, SeparatorAsWord)
+	wordBuilder = append(wordBuilder, suffix)
+	wordBuilder = append(wordBuilder, floatingPartAsIntegerWithWord)
+
+	return strings.Join(wordBuilder, " "), nil
+}
+
+func getSignKeywordAsWord(str string) (string, error) {
+	if str == "" {
+		return "", errors.New("argument cannot be empty")
+	}
+
+	var sign string
+	if len(str) > 1 && str[0:1] == "-" {
+		sign = NegativeAsWord
+	}
+
+	return sign, nil
+}
+
+func removeSignMarkIfExists(str string) string {
+	if len(str) > 1 && str[0:1] == "-" {
+		return str[1:]
+	}
+
+	return str
 }
 
 // Convert integer given in str to word
-func convertIntPart(intPart int) string {
+func convertIntPart(strArg string) string {
+	str := removeSignMarkIfExists(strArg)
 
-	//make it positive, if needed
-	intPart = int(math.Abs(float64(intPart)))
-
-	str := strconv.Itoa(intPart)
 	//starting from right hand side, pick up triples and start process it
 
 	//used to indicate level 10^3, 10^6
@@ -263,8 +276,30 @@ func getKeyword(position int) (keyword string, err error) {
 		return OctillionAsString, nil
 	case 11:
 		return NonillionAsString, nil
+	case 12:
+		return DecillionAsString, nil
+	case 13:
+		return UndecillionAsString, nil
+	case 14:
+		return DodecillionAsString, nil
+	case 15:
+		return TredecillionAsString, nil
+	case 16:
+		return CathodecillionAsString, nil
+	case 17:
+		return KendecillionAsString, nil
+	case 18:
+		return SexdecillionAsString, nil
+	case 19:
+		return SeptendecillionAsString, nil
+	case 20:
+		return OctodecillionAsString, nil
+	case 21:
+		return NovedesillionAsString, nil
+	case 22:
+		return VigintillionAsString, nil
 	default:
-		return "", errors.New(fmt.Sprintf("Max supported number level: %s", NonillionAsString))
+		return "", errors.New(fmt.Sprintf("Max supported number level: %s", VigintillionAsString))
 	}
 }
 

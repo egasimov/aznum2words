@@ -21,7 +21,7 @@ type testCaseSpellNumber struct {
 func Test_convertIntPart_WhereTwoDigitsNumber(t *testing.T) {
 	twoDigitsCases := testCaseConvertIntPartsForTwoDigitsNumbers()
 	for _, testCaseConvertIntPart := range twoDigitsCases {
-		actual := convertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(strconv.Itoa(testCaseConvertIntPart.given))
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			t.Errorf("For %s "+
@@ -39,7 +39,7 @@ func Test_convertIntPart_WhereTwoDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereSingleDigitsNumber(t *testing.T) {
 	singleDigitsCases := testCaseConvertIntPartsForSingleDigitsNumbers()
 	for _, testCaseConvertIntPart := range singleDigitsCases {
-		actual := convertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(strconv.Itoa(testCaseConvertIntPart.given))
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			t.Errorf("For %s "+
@@ -57,7 +57,7 @@ func Test_convertIntPart_WhereSingleDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereThreeDigitsNumber(t *testing.T) {
 	threeDigitsCases := testCaseConvertIntPartsForThreeDigitsNumbers()
 	for _, testCaseConvertIntPart := range threeDigitsCases {
-		actual := convertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(strconv.Itoa(testCaseConvertIntPart.given))
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			//t.Error("For", testCaseConvertIntPart.description,
@@ -80,7 +80,7 @@ func Test_convertIntPart_WhereThreeDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereFourDigitsNumber(t *testing.T) {
 	fourDigitsCases := testCaseConvertIntPartsForFourDigitsNumbers()
 	for _, testCaseConvertIntPart := range fourDigitsCases {
-		actual := convertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(strconv.Itoa(testCaseConvertIntPart.given))
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			//t.Error("For", testCaseConvertIntPart.description,
@@ -103,7 +103,7 @@ func Test_convertIntPart_WhereFourDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereFiveDigitsNumber(t *testing.T) {
 	fiveDigitsCases := testCaseConvertIntPartsForFiveDigitsNumbers()
 	for _, testCaseConvertIntPart := range fiveDigitsCases {
-		actual := convertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(strconv.Itoa(testCaseConvertIntPart.given))
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			//t.Error("For", testCaseConvertIntPart.description,
@@ -126,7 +126,7 @@ func Test_convertIntPart_WhereFiveDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereSixDigitsNumber(t *testing.T) {
 	sixDigitsCases := testCaseConvertIntPartsForSixDigitsNumbers()
 	for _, testCaseConvertIntPart := range sixDigitsCases {
-		actual := convertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(strconv.Itoa(testCaseConvertIntPart.given))
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			//t.Error("For", testCaseConvertIntPart.description,
@@ -149,7 +149,7 @@ func Test_convertIntPart_WhereSixDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereSevenDigitsNumber(t *testing.T) {
 	sevenDigitsCases := testCaseConvertIntPartsForSevenDigitsNumbers()
 	for _, testCaseConvertIntPart := range sevenDigitsCases {
-		actual := convertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(strconv.Itoa(testCaseConvertIntPart.given))
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			//t.Error("For", testCaseConvertIntPart.description,
@@ -172,7 +172,7 @@ func Test_convertIntPart_WhereSevenDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereEightDigitsNumber(t *testing.T) {
 	eightDigitsCases := testCaseConvertIntPartsForEightDigitsNumbers()
 	for _, testCaseConvertIntPart := range eightDigitsCases {
-		actual := convertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(strconv.Itoa(testCaseConvertIntPart.given))
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			//t.Error("For", testCaseConvertIntPart.description,
@@ -195,7 +195,7 @@ func Test_convertIntPart_WhereEightDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereNineDigitsNumber(t *testing.T) {
 	nineDigitsCases := testCaseConvertIntPartsForNineDigitsNumbers()
 	for _, testCaseConvertIntPart := range nineDigitsCases {
-		actual := convertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(strconv.Itoa(testCaseConvertIntPart.given))
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			//t.Error("For", testCaseConvertIntPart.description,
@@ -218,7 +218,7 @@ func Test_convertIntPart_WhereNineDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereTenDigitsNumber(t *testing.T) {
 	tenDigitsCases := testCaseConvertIntPartsForTenDigitsNumbers()
 	for _, testCaseConvertIntPart := range tenDigitsCases {
-		actual := convertIntPart(testCaseConvertIntPart.given)
+		actual := convertIntPart(strconv.Itoa(testCaseConvertIntPart.given))
 
 		if !reflect.DeepEqual(actual, testCaseConvertIntPart.expected) {
 			//t.Error("For", testCaseConvertIntPart.description,
@@ -267,6 +267,42 @@ func Test_SpellNumber_WhereNegativeIntegerNumber(t *testing.T) {
 				testCaseConvertIntPart.description,
 				testCaseConvertIntPart.given, len(testCaseConvertIntPart.given),
 				testCaseConvertIntPart.expected, len(testCaseConvertIntPart.expected),
+				actual, len(actual))
+
+		}
+	}
+}
+
+func Test_SpellNumber_WherePositiveIntegerNumber(t *testing.T) {
+
+	testCases := testCaseSpellNumberForPositiveIntegerNumbers()
+	for _, testCase := range testCases {
+		actual, err := SpellNumber(testCase.given)
+
+		if err != nil {
+			t.Errorf("For %s "+
+				"\n Given: %s, len: %d "+
+				"\n Expected: %s, len: %d"+
+				"\n Got: %s",
+				testCase.description,
+				testCase.given, len(testCase.given),
+				testCase.expected, len(testCase.expected),
+				err.Error())
+			continue
+		}
+
+		if !reflect.DeepEqual(actual, testCase.expected) {
+			//t.Error("For", testCaseConvertIntPart.description,
+			//	"\n Given: ", testCaseConvertIntPart.given,
+			//	"\n Expected: ", testCaseConvertIntPart.expected,
+			//	"\n Got: ", actual)
+			t.Errorf("For %s "+
+				"\n Given: %s, len: %d "+
+				"\n Expected: %s, len: %d"+
+				"\n Got: %s, len: %d",
+				testCase.description,
+				testCase.given, len(testCase.given),
+				testCase.expected, len(testCase.expected),
 				actual, len(actual))
 
 		}
@@ -1069,6 +1105,18 @@ func testCaseSpellNumberForNegativeIntegerNumbers() []testCaseSpellNumber {
 		}}
 }
 
+func testCaseSpellNumberForPositiveIntegerNumbers() []testCaseSpellNumber {
+	testCaseDescription := "Test Case: positive integer number"
+
+	return []testCaseSpellNumber{
+		testCaseSpellNumber{
+			description: testCaseDescription,
+			given:       "493882371553121860890561055192142938414552660618128252927700430053",
+			expected:    "dörd yüz doxsan üç vigintilyon səkkiz yüz səksən iki novemdesilyon üç yüz yetmiş bir oktodesilyon beş yüz əlli üç septendesilyon bir yüz iyirmi bir seksdesilyon səkkiz yüz altmış kendesilyon səkkiz yüz doxsan katordesilyon beş yüz altmış bir tredesilyon əlli beş dodesilyon bir yüz doxsan iki undesilyon bir yüz qırx iki desilyon doqquz yüz otuz səkkiz nonilyon dörd yüz on dörd oktilyon beş yüz əlli iki septilyon altı yüz altmış sekstilyon altı yüz on səkkiz kentilyon bir yüz iyirmi səkkiz katrilyon iki yüz əlli iki trilyon doqquz yüz iyirmi yeddi milyard yeddi yüz milyon dörd yüz otuz min əlli üç",
+		},
+	}
+}
+
 func testCaseSpellNumberForNegativeFloatingPointNumbers() []testCaseSpellNumber {
 	testCaseDescription := "Test Case: negative floating point number"
 
@@ -1116,7 +1164,7 @@ func testCaseSpellNumberForNegativeFloatingPointNumbers() []testCaseSpellNumber 
 		testCaseSpellNumber{
 			description: testCaseDescription,
 			given:       "-0.179354594",
-			expected:    "mənfi sıfır tam milyardda bir yüz yetmiş doqquz milyon üç yüz əlli dörd min beş yüz doxsan dörd",
+			expected:    "mənfi sıfır tam bir milyardda bir yüz yetmiş doqquz milyon üç yüz əlli dörd min beş yüz doxsan dörd",
 		},
 		testCaseSpellNumber{
 			description: testCaseDescription,

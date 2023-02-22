@@ -10,13 +10,24 @@ Bu kitabxana vasitəsilə -  müsbət, mənfi tam vəya kəsr ədədlərin sözl
 ## Nümunə:
 
 ```go
-result1, _ := aznum2words.SpellNumber("-95412")
-result2, _ := aznum2words.SpellNumber("-2.7021")
-result3, _ := aznum2words.SpellNumber("5611113210")
+package main
 
-fmt.Print(resut1)
-fmt.Print(resut2)
-fmt.Print(resut3)
+import (
+	"fmt"
+
+	"github.com/egasimov/aznum2words"
+)
+
+func main() {
+	result1, _ := aznum2words.SpellNumber("-95412")
+	result2, _ := aznum2words.SpellNumber("-2.7021")
+	result3, _ := aznum2words.SpellNumber("5611113210")
+
+	fmt.Println(result1)
+	fmt.Println(result2)
+	fmt.Println(result3)
+}
+
 ```
 
 **NƏTİCƏ**:

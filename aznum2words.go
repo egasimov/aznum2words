@@ -1,4 +1,4 @@
-package num2words
+package aznum2words
 
 import (
 	"errors"

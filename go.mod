@@ -1,3 +1,3 @@
-module "github.com/egasimov/num2words"
+module github.com/egasimov/num2words
 
-go 1.18
+go 1.19

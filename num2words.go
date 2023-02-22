@@ -1,4 +1,4 @@
-package helper
+package num2words
 
 import (
 	"errors"
@@ -55,7 +55,9 @@ const (
 	SeparatorAsWord string = "tam"
 )
 
-//Floating point number indicators
+var validNumberRegex = regexp.MustCompile("^-?\\d+(\\.\\d+)?$")
+
+// Floating point number indicators
 // count of zeros : suffix
 var floatingPointDict = map[int]string{
 	10:  "onda",
@@ -75,7 +77,7 @@ var floatingPointDict = map[int]string{
 
 	1_000_000_000_000:   "bir trilyonda",
 	10_000_000_000_000:  "on trilyonda",
-	100_000_000_000_000: "yüz trilyon",
+	100_000_000_000_000: "yüz trilyonda",
 }
 
 var digits = []string{
@@ -375,9 +377,3 @@ func tripleToWord(triple string) (string, error) {
 
 	return strings.Join(textBuilder, " "), nil
 }
-
-//TODO make regex be valid for numbers containing symbol: ','
-var validNumberRegex = regexp.MustCompile("^-?\\d+(\\.\\d+)?$")
-
-//var validNumberRegexForWholePositive = regexp.MustCompile("/^(0|[1-9]\\d*)$/\n")
-//var validNumberRegexForWholePositive = regexp.MustCompile("/^(0|[1-9]\\d*)$/\n")

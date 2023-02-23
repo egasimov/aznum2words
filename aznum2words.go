@@ -175,12 +175,12 @@ func handleFloatingPointNumberConversion(floatValueAsStr string) (string, error)
 	floatingPartAsIntegerWithWord := convertIntPart(floatingPart)
 
 	cnt := len(floatingPart)
-	seperatorKey := int(math.Pow10(cnt))
+	separatorKey := int(math.Pow10(cnt))
 
-	suffix, ok := floatingPointDict[seperatorKey]
+	suffix, ok := floatingPointDict[separatorKey]
 
 	if !ok {
-		return "", errors.New(fmt.Sprintf("No seperator found"))
+		return "", errors.New(fmt.Sprintf("No separator found"))
 	}
 
 	wordBuilder := make([]string, 0)

@@ -1,4 +1,7 @@
-# AzNum2Words ![CI](https://github.com/egasimov/aznum2words/actions/workflows/ci.yml/badge.svg?branch=master) [![Go Report Card](https://goreportcard.com/badge/github.com/egasimov/aznum2words)](https://goreportcard.com/report/github.com/egasimov/aznum2words)
+# AzNum2Words
+![CI](https://github.com/egasimov/aznum2words/actions/workflows/ci.yml/badge.svg?branch=master) 
+[![Go Report Card](https://goreportcard.com/badge/github.com/egasimov/aznum2words)](https://goreportcard.com/report/github.com/egasimov/aznum2words)
+[![GoDoc](https://godoc.org/github.com/egasimov/aznum2words?status.svg)](https://godoc.org/github.com/egasimov/aznum2words)
 
 ## Məlumat | Description
 **AzNum2Words** - açıq qaynaq kodlu, [MIT](./LICENSE) lisenziyalı Go proqramlaşdırma dilində yazılmış bir kitabxanadır.
@@ -55,7 +58,7 @@ beş milyard altı yüz on bir milyon bir yüz on üç min iki yüz on
 - - -
 ## Quraşdırılması | Installation
 ```shell
-go get github.com/egasimov/aznum2words
+go get github.com/egasimov/aznum2words.exe
 ```
 
 - - -

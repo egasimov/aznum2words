@@ -95,6 +95,7 @@ var floatingPointDict = map[int]string{
 	100_000_000_000_000_000: "yüz katrilyonda",
 }
 
+// holds an array of single digits as word representation
 var digits = []string{
 	ZeroAsString,
 	OneAsString,
@@ -108,6 +109,7 @@ var digits = []string{
 	NineAsString,
 }
 
+// holds the array of tens as word representation
 var tens = []string{
 	"",
 	TenAsString,
@@ -121,33 +123,39 @@ var tens = []string{
 	NinetyAsString,
 }
 
-func SpellNumber(str string) (string, error) {
+// SpellNumber takes a string input numberAsStr and returns a string and an error.
+// The purpose of the function is to convert a given number string into its equivalent Azerbaijani words.
+// The function starts by validating the input string using a regular expression. If the input string is not in a valid format, it returns an error.
+// If the input string is valid, it then checks whether it is a floating-point number or an integer number.
+// Depending on this, it calls either `handleFloatingPointNumberConversion` or `handleIntegerNumberConversion` to convert the number into its equivalent Azerbaijani words.
+// If the conversion is successful, the function returns the result as a string. If an error occurs during the conversion, the function returns an error.
+func SpellNumber(numberAsStr string) (string, error) {
 	//check whether number is in valid format
-	if ok := validNumberRegex.MatchString(str); !ok {
-		return "", errors.New(fmt.Sprintf("Input: %s invalid", str))
+	if ok := validNumberRegex.MatchString(numberAsStr); !ok {
+		return "", errors.New(fmt.Sprintf("Input: %s invalid", numberAsStr))
 	}
 
-	//it may contain separator like `,` placed every 3 decimal places for numbers larger than 999
-	str = strings.ReplaceAll(str, ",", "")
-
-	isFloatingNumber := strings.Contains(str, ".")
+	isFloatingNumber := strings.Contains(numberAsStr, ".")
 	if isFloatingNumber {
-		return handleFloatingPointNumberConversion(str)
-	} else {
-		return handleIntegerNumberConversion(str)
+		return handleFloatingPointNumberConversion(numberAsStr)
 	}
+
+	return handleIntegerNumberConversion(numberAsStr)
 }
 
+// The function intended to handle the conversion of integer numbers into words
+// handleIntegerNumberConversion("-79594") -> "mənfi yetmiş doqquz min beş yüz doxsan dörd"
+// handleIntegerNumberConversion("81") -> "səksən bir"
 func handleIntegerNumberConversion(intValueAsStr string) (string, error) {
 	wordBuilder := make([]string, 0)
 
-	sign, err := getSignKeywordAsWord(intValueAsStr)
+	signKeyword, err := getSignKeywordAsWord(intValueAsStr)
 	if err != nil {
 		return "", err
 	}
 
-	if sign != "" {
-		wordBuilder = append(wordBuilder, sign)
+	if signKeyword != "" {
+		wordBuilder = append(wordBuilder, signKeyword)
 	}
 
 	spelledInteger := convertIntPart(intValueAsStr)
@@ -157,6 +165,9 @@ func handleIntegerNumberConversion(intValueAsStr string) (string, error) {
 	return strings.Join(wordBuilder, " "), nil
 }
 
+// The function intended to handle the conversion of floating point numbers into words
+// handleFloatingPointNumberConversion("-12.1") -> "mənfi on iki tam onda bir"
+// handleFloatingPointNumberConversion("0.248551") -> "sıfır tam bir milyonda iki yüz qırx səkkiz min beş yüz əlli bir"
 func handleFloatingPointNumberConversion(floatValueAsStr string) (string, error) {
 	signKeyword, err := getSignKeywordAsWord(floatValueAsStr)
 	if err != nil {
@@ -195,6 +206,9 @@ func handleFloatingPointNumberConversion(floatValueAsStr string) (string, error)
 	return strings.Join(wordBuilder, " "), nil
 }
 
+// Extract the sign mark('-') and convert into word
+// getSignKeywordAsWord("-123") -> "mənfi"
+// getSignKeywordAsWord("123") -> ""
 func getSignKeywordAsWord(str string) (string, error) {
 	if str == "" {
 		return "", errors.New("argument cannot be empty")
@@ -208,6 +222,9 @@ func getSignKeywordAsWord(str string) (string, error) {
 	return sign, nil
 }
 
+// Remove the sign mark('-') from str
+// removeSignMarkIfExists("-123") -> "123"
+// removeSignMarkIfExists("123") -> "123"
 func removeSignMarkIfExists(str string) string {
 	if len(str) > 1 && str[0:1] == "-" {
 		return str[1:]
@@ -216,15 +233,15 @@ func removeSignMarkIfExists(str string) string {
 	return str
 }
 
-// Convert integer given in str to word
+// The function intended to convert any sized positive integer numbers into words
 func convertIntPart(strArg string) string {
 	str := removeSignMarkIfExists(strArg)
-
-	//starting from right hand side, pick up triples and start process it
 
 	//used to indicate level 10^3, 10^6
 	pos := 1
 	wordBuilder := make([]string, 0)
+
+	//starting from right hand side, pick up triples and start process it
 	for i := len(str); i >= 0; i = i - 3 {
 		key, _ := getKeyword(pos)
 		pos++
@@ -251,6 +268,10 @@ func convertIntPart(strArg string) string {
 	return strings.Join(wordBuilder, " ")
 }
 
+// The function designed to get level-word of triples based on its position in representation when scanning from left to right
+// e.g "1234", divide it into triples: "1" and "234"
+// getKeyword(1) -> "" : keyword for first triple when scanning from right to left
+// getKeyword(2) -> "min" : keyword for second triple when scanning from right to left
 func getKeyword(position int) (keyword string, err error) {
 	switch position {
 	case 1:
@@ -303,63 +324,85 @@ func getKeyword(position int) (keyword string, err error) {
 	}
 }
 
+// The function intended to convert triples("1", "12", "123") into words' representation
+// tripleToWord("") -> ""
+// tripleToWord("1") -> "bir"
+// tripleToWord("12") -> "on iki"
+// tripleToWord("123") -> "bir yüz iyirmi üz"
 func tripleToWord(triple string) (string, error) {
-
 	if len(triple) == 0 {
 		return "", nil
 	}
 
 	if len(triple) == 1 {
-		if i, err := strconv.Atoi(triple); err != nil {
-			return "", err
-		} else {
-			return digits[i], nil
-		}
+		return convertOneDigitIntoWord(triple)
 	}
 
 	if len(triple) == 2 {
-		var textBuilder []string
-		var idxAt1 int
-		if i, err := strconv.Atoi(triple[1:]); err != nil {
-			return "", err
-		} else {
-			idxAt1 = i
-		}
-		var wordForIdxAt1 string
-		if idxAt1 == 0 {
-			wordForIdxAt1 = ""
-		} else {
-			wordForIdxAt1 = digits[idxAt1]
-		}
-
-		if len(wordForIdxAt1) != 0 {
-			textBuilder = append([]string{wordForIdxAt1}, textBuilder...)
-		}
-
-		var idxAt0 int
-		if i, err := strconv.Atoi(triple[0:1]); err != nil {
-			return "", err
-		} else {
-			idxAt0 = i
-		}
-
-		wordForIdxAt0 := tens[idxAt0]
-
-		if len(wordForIdxAt0) != 0 {
-			textBuilder = append([]string{wordForIdxAt0}, textBuilder...)
-		}
-
-		return strings.Join(textBuilder, " "), nil
+		return convertTwoDigitsIntoWord(triple)
 	}
 
+	return convertThreeDigitsIntoWord(triple)
+}
+
+// convertOneDigitIntoWord("0") -> "sıfır"
+// convertOneDigitIntoWord("1") -> "bir"
+func convertOneDigitIntoWord(oneDigitWord string) (string, error) {
+	if i, err := strconv.Atoi(oneDigitWord); err != nil {
+		return "", err
+	} else {
+		return digits[i], nil
+	}
+}
+
+// convertTwoDigitsIntoWord("10") -> "on"
+// convertTwoDigitsIntoWord("25") -> "iyirmi beş"
+func convertTwoDigitsIntoWord(twoDigitsWord string) (string, error) {
 	var textBuilder []string
-	for i := len(triple) - 1; i >= 0; i-- {
+	var idxAt1 int
+	if i, err := strconv.Atoi(twoDigitsWord[1:]); err != nil {
+		return "", err
+	} else {
+		idxAt1 = i
+	}
+	var wordForIdxAt1 string
+	if idxAt1 == 0 {
+		wordForIdxAt1 = ""
+	} else {
+		wordForIdxAt1 = digits[idxAt1]
+	}
+
+	if len(wordForIdxAt1) != 0 {
+		textBuilder = append([]string{wordForIdxAt1}, textBuilder...)
+	}
+
+	var idxAt0 int
+	if i, err := strconv.Atoi(twoDigitsWord[0:1]); err != nil {
+		return "", err
+	} else {
+		idxAt0 = i
+	}
+
+	wordForIdxAt0 := tens[idxAt0]
+
+	if len(wordForIdxAt0) != 0 {
+		textBuilder = append([]string{wordForIdxAt0}, textBuilder...)
+	}
+
+	return strings.Join(textBuilder, " "), nil
+}
+
+// convertThreeDigitsIntoWord("390") -> "üç yüz doxsan"
+// convertThreeDigitsIntoWord("125") -> "bir yüz iyirmi beş"
+func convertThreeDigitsIntoWord(threeDigitsWord string) (string, error) {
+	var textBuilder []string
+	for i := len(threeDigitsWord) - 1; i >= 0; i-- {
 
 		var word string
 		switch i {
 		case 2:
 			var ValAtIdx2 int
-			if i, err := strconv.Atoi(triple[2:]); err != nil {
+			if i, err := strconv.Atoi(threeDigitsWord[2:]); err != nil {
 				return "", err
 			} else {
 				ValAtIdx2 = i
@@ -370,7 +413,7 @@ func tripleToWord(triple string) (string, error) {
 
 		case 1:
 			var ValAtIdx1 int
-			if i, err := strconv.Atoi(triple[1:2]); err != nil {
+			if i, err := strconv.Atoi(threeDigitsWord[1:2]); err != nil {
 				return "", err
 			} else {
 				ValAtIdx1 = i
@@ -382,7 +425,7 @@ func tripleToWord(triple string) (string, error) {
 			}
 		case 0:
 			var ValAtIdx0 int
-			if i, err := strconv.Atoi(triple[0:1]); err != nil {
+			if i, err := strconv.Atoi(threeDigitsWord[0:1]); err != nil {
 				return "", err
 			} else {
 				ValAtIdx0 = i

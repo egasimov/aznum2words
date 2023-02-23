@@ -42,8 +42,8 @@ const (
 	MillionAsString         string = "milyon"         // 10^6
 	BillionAsString         string = "milyard"        // 10^9
 	TrillionAsString        string = "trilyon"        // 10^12
-	QuadrillionAsString     string = "katrilyon"      // 10^15
-	QuintillionAsString     string = "kentilyon"      // 10^18
+	QuadrillionAsString     string = "kvadrilyon"     // 10^15
+	QuintillionAsString     string = "kvintilyon"     // 10^18
 	SextillionAsString      string = "sekstilyon"     // 10^21
 	SeptillionAsString      string = "septilyon"      // 10^24
 	OctillionAsString       string = "oktilyon"       // 10^27

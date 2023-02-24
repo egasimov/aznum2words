@@ -39,6 +39,7 @@ Here are a few examples:
 	Run: func(cmd *cobra.Command, args []string) {
 
 		arg0 := strings.TrimSpace(args[0])
+		arg0 = strings.ReplaceAll(arg0, "\"", "")
 
 		result, err := aznum2words.SpellNumber(arg0)
 

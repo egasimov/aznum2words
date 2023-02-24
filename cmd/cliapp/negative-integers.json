@@ -1,0 +1,70 @@
+{
+  "useCaseName": "Testing negative integers",
+  "useCases": [
+    {
+      "name": "1 digit numbers",
+      "samples": [
+        {
+          "given": "0",
+          "expected": "sıfır"
+        },
+        {
+          "given": "-1",
+          "expected": "mənfi bir"
+        },
+        {
+          "given": "-9",
+          "expected": "mənfi doqquz"
+        }
+      ]
+    },
+    {
+      "name": "2 digits numbers",
+      "samples": [
+        {
+          "given": "-12",
+          "expected": "mənfi on iki"
+        }
+      ]
+    },
+    {
+      "name": "3 digits numbers",
+      "samples": [
+        {
+          "given": "-123",
+          "expected": "mənfi bir yüz iyirmi üç"
+        }
+      ]
+    },
+    {
+      "name": "3 digits numbers",
+      "samples": [
+        {
+          "given": "-1123",
+          "expected": "mənfi bir min bir yüz iyirmi üç"
+        },
+        {
+          "given": "-1230",
+          "expected": "mənfi bir min iki yüz otuz"
+        },
+        {
+          "given": "-1234",
+          "expected": "mənfi bir min iki yüz otuz dörd"
+        }
+      ]
+    },
+    {
+      "name": "5 digits numbers",
+      "samples": [
+        {
+          "given": "-11234",
+          "expected": "mənfi on bir min iki yüz otuz dörd"
+        },
+        {
+          "given": "-12345",
+          "expected": "mənfi on iki min üç yüz qırx beş"
+        }
+      ]
+    }
+  ]
+}

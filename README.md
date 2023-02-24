@@ -58,7 +58,7 @@ beş milyard altı yüz on bir milyon bir yüz on üç min iki yüz on
 - - -
 ## Quraşdırılması | Installation
 ```shell
-go get github.com/egasimov/aznum2words.exe
+go get github.com/egasimov/aznum2words
 ```
 
 - - -

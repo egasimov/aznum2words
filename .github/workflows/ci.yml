@@ -3,7 +3,18 @@
 
 name: CI
 
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - 'assets/**'
+      - README.md
+    branches:
+      - master
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    branches:
+      - master
 
 jobs:
 
@@ -12,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        go: [ '1.20', '1.19']
+        go: ['1.19']
         os: [ ubuntu-latest, macOS-latest, windows-latest ]    
     name: ${{ matrix.os }} Go ${{ matrix.go }} Tests        
     steps:

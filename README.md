@@ -7,6 +7,7 @@ dilində yazılmış, açıq qaynaqlı kitabxanadır.
 [![Go Report Card](https://goreportcard.com/badge/github.com/egasimov/aznum2words)](https://goreportcard.com/report/github.com/egasimov/aznum2words)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/egasimov/aznum2words?sort=semver)
 [![GitHub stars](https://img.shields.io/github/stars/egasimov/aznum2words.svg?style=social&label=Stars&style=plastic)](https://github.com/egasimov/aznum2words/stargazers)
+[![codecov](https://codecov.io/gh/egasimov/aznum2words/branch/master/graph/badge.svg?token=LDWMTI4VU4)](https://codecov.io/gh/egasimov/aznum2words)
 
 [//]: # ([![Github Last Commit]&#40;https://img.shields.io/github/last-commit/egasimov/aznum2words?color=61dfc6&label=last%20commit&#41;]&#40;&#41;)
 [//]: # (![GitHub all releases]&#40;https://img.shields.io/github/downloads/egasimov/aznum2words/total&#41;)

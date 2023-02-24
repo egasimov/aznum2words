@@ -42,7 +42,7 @@ jobs:
 #       run: go test -v ./...
 
     - name: Run coverage
-      run: go test -json ./... -coverprofile=coverage.txt -covermode=atomic -coverpkg=./telegram
+      run: go test -json ./... -coverprofile=coverage.txt -covermode=atomic
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2

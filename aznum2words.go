@@ -90,9 +90,9 @@ var floatingPointDict = map[int]string{
 	10_000_000_000_000:  "on trilyonda",
 	100_000_000_000_000: "yüz trilyonda",
 
-	1_000_000_000_000_000:   "bir katrilyonda",
-	10_000_000_000_000_000:  "on katrilyonda",
-	100_000_000_000_000_000: "yüz katrilyonda",
+	1_000_000_000_000_000:   "bir kvadrilyonda",
+	10_000_000_000_000_000:  "on kvadrilyonda",
+	100_000_000_000_000_000: "yüz kvadrilyonda",
 }
 
 // holds an array of single digits as word representation

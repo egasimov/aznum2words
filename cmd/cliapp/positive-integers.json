@@ -1,0 +1,70 @@
+{
+  "useCaseName": "Testing positive integers",
+  "useCases": [
+    {
+      "name": "1 digit numbers",
+      "samples": [
+        {
+          "given": "0",
+          "expected": "sıfır"
+        },
+        {
+          "given": "1",
+          "expected": "bir"
+        },
+        {
+          "given": "9",
+          "expected": "doqquz"
+        }
+      ]
+    },
+    {
+      "name": "2 digits numbers",
+      "samples": [
+        {
+          "given": "12",
+          "expected": "on iki"
+        }
+      ]
+    },
+    {
+      "name": "3 digits numbers",
+      "samples": [
+        {
+          "given": "123",
+          "expected": "bir yüz iyirmi üç"
+        }
+      ]
+    },
+    {
+      "name": "3 digits numbers",
+      "samples": [
+        {
+          "given": "1123",
+          "expected": "bir min bir yüz iyirmi üç"
+        },
+        {
+          "given": "1230",
+          "expected": "bir min iki yüz otuz"
+        },
+        {
+          "given": "1234",
+          "expected": "bir min iki yüz otuz dörd"
+        }
+      ]
+    },
+    {
+      "name": "5 digits numbers",
+      "samples": [
+        {
+          "given": "11234",
+          "expected": "on bir min iki yüz otuz dörd"
+        },
+        {
+          "given": "12345",
+          "expected": "on iki min üç yüz qırx beş"
+        }
+      ]
+    }
+  ]
+}

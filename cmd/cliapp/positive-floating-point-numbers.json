@@ -1,0 +1,54 @@
+{
+  "useCaseName": "Testing positive floating point numbers",
+  "useCases": [
+    {
+      "name": "1 digit precision",
+      "samples": [
+        {
+          "given": "0.1",
+          "expected": "sıfır tam onda bir"
+        },
+        {
+          "given": "0.9",
+          "expected": "sıfır tam onda doqquz"
+        }
+      ]
+    },
+    {
+      "name": "2 digits precision",
+      "samples": [
+        {
+          "given": "0.12",
+          "expected": "sıfır tam yüzdə on iki"
+        }
+      ]
+    },
+    {
+      "name": "3 digits precision",
+      "samples": [
+        {
+          "given": "0.123",
+          "expected": "sıfır tam bir mində bir yüz iyirmi üç"
+        }
+      ]
+    },
+    {
+      "name": "4 digits precision",
+      "samples": [
+        {
+          "given": "2.7021",
+          "expected": "iki tam on mində yeddi min iyirmi bir"
+        }
+      ]
+    },
+    {
+      "name": "5 digits precision",
+      "samples": [
+        {
+          "given": "0.13211",
+          "expected": "sıfır tam yüz mində on üç min iki yüz on bir"
+        }
+      ]
+    }
+  ]
+}

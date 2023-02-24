@@ -8,6 +8,7 @@ on:
     paths-ignore:
       - 'assets/**'
       - README.md
+      - LICENSE      
     branches:
       - master
     tags:
@@ -37,5 +38,13 @@ jobs:
     - name: Build
       run: go build -v ./...
 
-    - name: Test
-      run: go test -v ./...
+#     - name: Test
+#       run: go test -v ./...
+
+    - name: Run coverage
+      run: go test -json ./... -coverprofile=coverage.txt -covermode=atomic -coverpkg=./telegram
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}

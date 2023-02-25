@@ -2,6 +2,9 @@
 ![aznum2words logo](./assets/img/logo-go-ref-2-crop.png)
 
 ![aznum2words logo](./assets/img/logo-go-ref-crop.png)
+
+![aznum2words logo](assets/img/v3.png)
+
 -->
 
 ![aznum2words logo](assets/img/logo-v2.png)
@@ -46,7 +49,7 @@ Azərbaycan dilində ədədlərin təsvirinə ehtiyac duyulan hallarda istifadə
 
 * Statistik hesabatların tərtib olunması.
 * Maliyyə əməliyyatları zamanı məbləğin sözlə təsvir olunması.
-* Hüquqi və maliyyə sənədləri: Hüquqi və maliyyə sənədləri tez-tez çaşqınlığın qarşısını almaq və dəqiqliyi təmin etmək
+* Hüquqi və maliyyə sənədləri tez-tez çaşqınlığın qarşısını almaq və dəqiqliyi təmin etmək
   üçün rəqəmlərin ifadə sözünün istifadəsini tələb edir.
 * Çek yazarkən, dəyişikliklərin və ya saxtakarlığın qarşısını almaq üçün rəqəmsal məbləğə əlavə olaraq məbləğin sözlə
   ifadəsini də yazmaq adi bir təcrübədir.
@@ -112,8 +115,12 @@ go install github.com/egasimov/aznum2words@latest
 ## CLI kimi istifadə qaydası | Guideline for using as CLI app
 
 ```shell
-// then execute it
-aznum2words-cli "123"
+$ aznum2words-cli -- 12.3
+on iki tam onda üç
+
+$ aznum2words-cli -- -12.3
+mənfi on iki tam onda üç
+
 ```
 
 - - -

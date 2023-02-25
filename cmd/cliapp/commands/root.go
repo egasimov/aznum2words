@@ -30,19 +30,16 @@ Here are a few examples:
 
 `,
 	Example: `
-	aznum2words-cli "12345"
-	aznum2words-cli "-12345"
-	aznum2words-cli "123.45"
-	aznum2words-cli "-123.45"
+	aznum2words-cli -- 12345
+	aznum2words-cli -- -12345
+	aznum2words-cli -- 123.45
+	aznum2words-cli -- -123.45
 `,
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-
 		arg0 := strings.TrimSpace(args[0])
-		arg0 = strings.ReplaceAll(arg0, "\"", "")
 
 		result, err := aznum2words.SpellNumber(arg0)
-
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "error: %s\n", err.Error())
 			os.Exit(1)

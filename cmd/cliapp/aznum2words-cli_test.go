@@ -80,8 +80,7 @@ func TestCliArgs(t *testing.T) {
 					}
 
 					for idx, sampleItem := range useCase.Samples {
-						args := []string{"\"" + sampleItem.Given + "\""}
-						cmd := exec.Command(path.Join(dir, binaryName), strings.Join(args, ""))
+						cmd := exec.Command(path.Join(dir, binaryName), "--", sampleItem.Given)
 						outputRawByte, err := cmd.CombinedOutput()
 
 						if err != nil {

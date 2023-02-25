@@ -2,11 +2,23 @@ package aznum2words
 
 import (
 	"errors"
-	"fmt"
 	"math"
 	"regexp"
 	"strconv"
 	"strings"
+)
+
+var (
+	ErrInvalidArgument      = errors.New("an invalid argument provided")
+	ErrTooBigNumber         = errors.New("max supported number digits is 66")
+	ErrTooBigScale          = errors.New("max supported scale for real numbers is 15")
+	ErrUnexpectedBehaviour  = errors.New("an unexpected behaviour occurred")
+	ErrUnsupportedOperation = errors.New("an operation is not supported")
+)
+
+const (
+	MaxNumberDigitCount int = 66
+	MaxNumberScaleCount int = 15
 )
 
 const (
@@ -132,7 +144,11 @@ var tens = []string{
 func SpellNumber(numberAsStr string) (string, error) {
 	//check whether number is in valid format
 	if ok := validNumberRegex.MatchString(numberAsStr); !ok {
-		return "", errors.New(fmt.Sprintf("Input: %s invalid", numberAsStr))
+		return "", ErrInvalidArgument
+	}
+
+	if err := checkConstraints(numberAsStr); err != nil {
+		return "", err
 	}
 
 	isFloatingNumber := strings.Contains(numberAsStr, ".")
@@ -141,6 +157,39 @@ func SpellNumber(numberAsStr string) (string, error) {
 	}
 
 	return handleIntegerNumberConversion(numberAsStr)
+}
+
+// checkConstraints as name explains, intended to check predefined constraints for given input number
+// basically checks whether given number satisfy the limitations for conversion
+// There is two basic limitation:
+// Max allowed precision for real number should be less or equal to 15.
+// Max allowed number digits - only ones from left side of decimal point should be less or equal to 66.
+func checkConstraints(numberAsStr string) error {
+	numberAsStr = removeSignMarkIfExists(numberAsStr)
+	isFloatingNumber := strings.Contains(numberAsStr, ".")
+
+	if !isFloatingNumber {
+		if len(numberAsStr) > MaxNumberDigitCount {
+			return ErrTooBigNumber
+
+		}
+		return nil
+	}
+
+	slices := strings.Split(numberAsStr, ".")
+
+	//check number of digits in the left side of decimal point
+	if len(slices[0]) > MaxNumberDigitCount {
+		return ErrTooBigNumber
+	}
+
+	//sanitize floatingPart by removing trailing zeros if exist
+	floatingPart := strings.TrimRight(slices[1], "0")
+	if len(floatingPart) > MaxNumberScaleCount {
+		return ErrTooBigScale
+	}
+
+	return nil
 }
 
 // The function intended to handle the conversion of integer numbers into words
@@ -191,7 +240,7 @@ func handleFloatingPointNumberConversion(floatValueAsStr string) (string, error)
 	suffix, ok := floatingPointDict[separatorKey]
 
 	if !ok {
-		return "", errors.New(fmt.Sprintf("No separator found"))
+		return "", ErrTooBigScale
 	}
 
 	wordBuilder := make([]string, 0)
@@ -211,7 +260,7 @@ func handleFloatingPointNumberConversion(floatValueAsStr string) (string, error)
 // getSignKeywordAsWord("123") -> ""
 func getSignKeywordAsWord(str string) (string, error) {
 	if str == "" {
-		return "", errors.New("argument cannot be empty")
+		return "", ErrInvalidArgument
 	}
 
 	var sign string
@@ -320,7 +369,7 @@ func getKeyword(position int) (keyword string, err error) {
 	case 22:
 		return VigintillionAsString, nil
 	default:
-		return "", errors.New(fmt.Sprintf("Max supported number level: %s", VigintillionAsString))
+		return "", ErrTooBigNumber
 	}
 }
 
@@ -348,6 +397,10 @@ func tripleToWord(triple string) (string, error) {
 // convertOneDigitIntoWord("0") -> "sıfır"
 // convertOneDigitIntoWord("1") -> "bir"
 func convertOneDigitIntoWord(oneDigitWord string) (string, error) {
+	if len(oneDigitWord) != 1 {
+		return "", ErrInvalidArgument
+	}
+
 	if i, err := strconv.Atoi(oneDigitWord); err != nil {
 		return "", err
 	} else {
@@ -358,6 +411,10 @@ func convertOneDigitIntoWord(oneDigitWord string) (string, error) {
 // convertTwoDigitsIntoWord("10") -> "on"
 // convertTwoDigitsIntoWord("25") -> "iyirmi beş"
 func convertTwoDigitsIntoWord(twoDigitsWord string) (string, error) {
+	if len(twoDigitsWord) != 2 {
+		return "", ErrInvalidArgument
+	}
+
 	var textBuilder []string
 	var idxAt1 int
 	if i, err := strconv.Atoi(twoDigitsWord[1:]); err != nil {
@@ -395,6 +452,10 @@ func convertTwoDigitsIntoWord(twoDigitsWord string) (string, error) {
 // convertThreeDigitsIntoWord("390") -> "üç yüz doxsan"
 // convertThreeDigitsIntoWord("125") -> "bir yüz iyirmi beş"
 func convertThreeDigitsIntoWord(threeDigitsWord string) (string, error) {
+	if len(threeDigitsWord) != 3 {
+		return "", ErrInvalidArgument
+	}
+
 	var textBuilder []string
 	for i := len(threeDigitsWord) - 1; i >= 0; i-- {
 
@@ -445,7 +506,7 @@ func convertThreeDigitsIntoWord(threeDigitsWord string) (string, error) {
 				word = ""
 			}
 		default:
-			return "", errors.New("")
+			return "", ErrUnexpectedBehaviour
 		}
 
 		if len(word) != 0 {

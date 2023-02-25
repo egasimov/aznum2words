@@ -18,6 +18,13 @@ type testCaseSpellNumber struct {
 	expected    string
 }
 
+type testCaseConvertDigit2Word struct {
+	description   string
+	given         string
+	expected      string
+	isErrExpected bool
+}
+
 func Test_convertIntPart_WhereTwoDigitsNumber(t *testing.T) {
 	twoDigitsCases := testCaseConvertIntPartsForTwoDigitsNumbers()
 	for _, testCaseConvertIntPart := range twoDigitsCases {
@@ -404,6 +411,145 @@ func Test_validNumberRegex(t *testing.T) {
 		}
 	}
 
+}
+
+func Test_checkConstraints(t *testing.T) {
+
+	type testCaseCheckConstraint struct {
+		given    string
+		expected error
+	}
+	testCases := []testCaseCheckConstraint{
+		{
+			given:    "123456789123456789123456789123456789123456789123456789123456789123",
+			expected: nil,
+		},
+		{
+			given:    "-123456789123456789123456789123456789123456789123456789123456789123",
+			expected: nil,
+		},
+		{
+			given:    "1234567891234567891234567891234567891234567891234567891234567891234",
+			expected: ErrTooBigNumber,
+		},
+		{
+			given:    "-1234567891234567891234567891234567891234567891234567891234567891234",
+			expected: ErrTooBigNumber,
+		},
+		{
+			given:    "0.12345678912345",
+			expected: nil,
+		},
+		{
+			given:    "-0.123456789123456",
+			expected: nil,
+		},
+		{
+			given:    "-0.12345678912345000000",
+			expected: nil,
+		},
+		{
+			given:    "0.1234567891234567",
+			expected: ErrTooBigScale,
+		},
+		{
+			given:    "-0.1234567891234567",
+			expected: ErrTooBigScale,
+		},
+	}
+
+	for _, testCase := range testCases {
+		actual := checkConstraints(testCase.given)
+
+		if !reflect.DeepEqual(actual, testCase.expected) {
+			t.Error("For", "Testing of  `checkConstraint` ",
+				"\n Given: ", testCase.given,
+				"\n Expected: ", testCase.expected,
+				"\n Got: ", actual)
+		}
+	}
+
+}
+
+func Test_convertOneDigitIntoWord(t *testing.T) {
+	testCases := testCaseConvertOneDigitIntoWord()
+
+	for _, testCase := range testCases {
+		actual, err := convertOneDigitIntoWord(testCase.given)
+
+		if err != nil {
+			if testCase.isErrExpected {
+				continue
+			}
+			t.Error("For", "Testing of  `convertOneDigitIntoWord` ",
+				"\n Given: ", testCase.given,
+				"\n Expected: ", testCase.expected,
+				"\n İsErrExpected: ", testCase.isErrExpected,
+				"\n Got Result: ", actual,
+				"\n Got Err: ", err)
+		}
+
+		if !reflect.DeepEqual(actual, testCase.expected) {
+			t.Error("For", "Testing of  `convertOneDigitIntoWord` ",
+				"\n Given: ", testCase.given,
+				"\n Expected: ", testCase.expected,
+				"\n Got: ", actual)
+		}
+	}
+}
+
+func Test_convertTwoDigitsIntoWord(t *testing.T) {
+	testCases := testCaseConvertTwoDigitsIntoWord()
+
+	for _, testCase := range testCases {
+		actual, err := convertTwoDigitsIntoWord(testCase.given)
+
+		if err != nil {
+			if testCase.isErrExpected {
+				continue
+			}
+			t.Error("For", "Testing of  `convertOneDigitIntoWord` ",
+				"\n Given: ", testCase.given,
+				"\n Expected: ", testCase.expected,
+				"\n İsErrExpected: ", testCase.isErrExpected,
+				"\n Got Result: ", actual,
+				"\n Got Err: ", err)
+		}
+
+		if !reflect.DeepEqual(actual, testCase.expected) {
+			t.Error("For", "Testing of  `convertOneDigitIntoWord` ",
+				"\n Given: ", testCase.given,
+				"\n Expected: ", testCase.expected,
+				"\n Got: ", actual)
+		}
+	}
+}
+
+func Test_convertThreeDigitsIntoWord(t *testing.T) {
+	testCases := testCaseConvertThreeDigitsIntoWord()
+
+	for _, testCase := range testCases {
+		actual, err := convertThreeDigitsIntoWord(testCase.given)
+
+		if err != nil {
+			if testCase.isErrExpected {
+				continue
+			}
+			t.Error("For", "Testing of  `convertThreeDigitsIntoWord` ",
+				"\n Given: ", testCase.given,
+				"\n Expected: ", testCase.expected,
+				"\n İsErrExpected: ", testCase.isErrExpected,
+				"\n Got Result: ", actual,
+				"\n Got Err: ", err)
+		}
+
+		if !reflect.DeepEqual(actual, testCase.expected) {
+			t.Error("For", "Testing of  `convertThreeDigitsIntoWord` ",
+				"\n Given: ", testCase.given,
+				"\n Expected: ", testCase.expected,
+				"\n Got: ", actual)
+		}
+	}
 }
 
 func testCaseConvertIntPartsForSingleDigitsNumbers() []testCaseConvertIntPart {
@@ -1181,4 +1327,295 @@ func testCaseSpellNumberForNegativeFloatingPointNumbers() []testCaseSpellNumber 
 			given:       "-0.541179354594",
 			expected:    "mənfi sıfır tam bir trilyonda beş yüz qırx bir milyard bir yüz yetmiş doqquz milyon üç yüz əlli dörd min beş yüz doxsan dörd",
 		}}
+}
+
+func testCaseConvertOneDigitIntoWord() []testCaseConvertDigit2Word {
+	testCaseDescription := "Test Case: convertOneDigitIntoWord"
+
+	return []testCaseConvertDigit2Word{
+		{
+			description:   testCaseDescription,
+			given:         "0",
+			expected:      "sıfır",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "1",
+			expected:      "bir",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "2",
+			expected:      "iki",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "3",
+			expected:      "üç",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "4",
+			expected:      "dörd",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "5",
+			expected:      "beş",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "6",
+			expected:      "altı",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "7",
+			expected:      "yeddi",
+			isErrExpected: false,
+		},
+		{
+			given:         "8",
+			expected:      "səkkiz",
+			isErrExpected: false,
+		},
+		{
+			given:         "9",
+			expected:      "doqquz",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "",
+			expected:      "sıfır",
+			isErrExpected: true,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "?",
+			expected:      "sıfır",
+			isErrExpected: true,
+		},
+	}
+}
+
+func testCaseConvertTwoDigitsIntoWord() []testCaseConvertDigit2Word {
+	testCaseDescription := "Test Case: convertTwoDigitsIntoWord"
+
+	return []testCaseConvertDigit2Word{
+		{
+			description:   testCaseDescription,
+			given:         "10",
+			expected:      "on",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "11",
+			expected:      "on bir",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "20",
+			expected:      "iyirmi",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "25",
+			expected:      "iyirmi beş",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "30",
+			expected:      "otuz",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "34",
+			expected:      "otuz dörd",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "40",
+			expected:      "qırx",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "50",
+			expected:      "əlli",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "60",
+			expected:      "altmış",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "62",
+			expected:      "altmış iki",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "70",
+			expected:      "yetmiş",
+			isErrExpected: false,
+		},
+		{
+			given:         "80",
+			expected:      "səksən",
+			isErrExpected: false,
+		},
+		{
+			given:         "90",
+			expected:      "doxsan",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "99",
+			expected:      "doxsan doqquz",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "?,",
+			expected:      "sıfır",
+			isErrExpected: true,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "?",
+			expected:      "sıfır",
+			isErrExpected: true,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "",
+			expected:      "sıfır",
+			isErrExpected: true,
+		},
+	}
+}
+
+func testCaseConvertThreeDigitsIntoWord() []testCaseConvertDigit2Word {
+	testCaseDescription := "Test Case: convertThreeDigitsIntoWord"
+
+	return []testCaseConvertDigit2Word{
+		{
+			description:   testCaseDescription,
+			given:         "100",
+			expected:      "bir yüz",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "101",
+			expected:      "bir yüz bir",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "210",
+			expected:      "iki yüz on",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "250",
+			expected:      "iki yüz əlli",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "311",
+			expected:      "üç yüz on bir",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "304",
+			expected:      "üç yüz dörd",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "400",
+			expected:      "dörd yüz",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "509",
+			expected:      "beş yüz doqquz",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "670",
+			expected:      "altı yüz yetmiş",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "620",
+			expected:      "altı yüz iyirmi",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "780",
+			expected:      "yeddi yüz səksən",
+			isErrExpected: false,
+		},
+		{
+			given:         "890",
+			expected:      "səkkiz yüz doxsan",
+			isErrExpected: false,
+		},
+		{
+			given:         "999",
+			expected:      "doqquz yüz doxsan doqquz",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "965",
+			expected:      "doqquz yüz altmış beş",
+			isErrExpected: false,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "0",
+			expected:      "",
+			isErrExpected: true,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "?",
+			expected:      "",
+			isErrExpected: true,
+		},
+		{
+			description:   testCaseDescription,
+			given:         "34",
+			expected:      "",
+			isErrExpected: true,
+		},
+	}
 }

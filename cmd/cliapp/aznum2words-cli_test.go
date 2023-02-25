@@ -36,13 +36,23 @@ var failFastFlag = flag.Bool("failfast", false, "stops in case of first test fai
 
 var binaryName = "aznum2words-cli"
 
-func fixturePath(t *testing.T, fixture string) string {
+func fixturePath(t *testing.T, fixtureName string) string {
 	_, filename, _, ok := runtime.Caller(0)
 	if !ok {
 		t.Fatalf("problems recovering caller information")
 	}
 
-	return filepath.Join(filepath.Dir(filename), fixture)
+	// Get the absolute path of the current file
+	absPath, err := filepath.Abs(filename)
+	if err != nil {
+		t.Fatal("Error getting absolute path:", err)
+	}
+	for i := 0; i < 3; i++ {
+		absPath = filepath.Dir(absPath)
+	}
+
+	var result = filepath.Join(absPath, "fixtures", fixtureName)
+	return result
 }
 
 func TestCliArgs(t *testing.T) {
@@ -109,10 +119,6 @@ func TestCliArgs(t *testing.T) {
 		}
 
 	}
-}
-
-func testUseCase(name string, useCase TestUseCase) {
-
 }
 
 func TestMain(m *testing.M) {

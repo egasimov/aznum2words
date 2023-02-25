@@ -1,7 +1,10 @@
-![aznum2words logo](./assets/img/logo.png)
+<!---
+![aznum2words logo](./assets/img/logo-go-ref-2-crop.png)
 
-**AzNum2Words** - Azərbaycan dilində ədədlərin sözlə yazılışı(və ya təsviri) üçün nəzərdə tutulan Go proqramlaşdırma
-dilində yazılmış, açıq qaynaqlı kitabxanadır.
+![aznum2words logo](./assets/img/logo-go-ref-crop.png)
+-->
+
+![aznum2words logo](assets/img/logo-v2.png)
 
 ![CI](https://github.com/egasimov/aznum2words/actions/workflows/ci.yml/badge.svg?branch=master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/egasimov/aznum2words)](https://goreportcard.com/report/github.com/egasimov/aznum2words)
@@ -9,31 +12,31 @@ dilində yazılmış, açıq qaynaqlı kitabxanadır.
 [![GitHub stars](https://img.shields.io/github/stars/egasimov/aznum2words.svg?style=social&label=Stars&style=plastic)](https://github.com/egasimov/aznum2words/stargazers)
 [![codecov](https://codecov.io/gh/egasimov/aznum2words/branch/master/graph/badge.svg?token=LDWMTI4VU4)](https://codecov.io/gh/egasimov/aznum2words)
 
-[//]: # ([![Github Last Commit]&#40;https://img.shields.io/github/last-commit/egasimov/aznum2words?color=61dfc6&label=last%20commit&#41;]&#40;&#41;)
-[//]: # (![GitHub all releases]&#40;https://img.shields.io/github/downloads/egasimov/aznum2words/total&#41;)
-
-- - -
-
-## Məlumat | Description
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 [![GoDoc](https://godoc.org/github.com/egasimov/aznum2words?status.svg)](https://godoc.org/github.com/egasimov/aznum2words)
 
-**AzNum2Words** - [MIT](./LICENSE) lisenziyalı, Go proqramlaşdırma dilində yazılmış bir kitabxanadır.
+[//]: # ([![Github Last Commit]&#40;https://img.shields.io/github/last-commit/egasimov/aznum2words?color=61dfc6&label=last%20commit&#41;]&#40;&#41;)
+[//]: # (![GitHub all releases]&#40;https://img.shields.io/github/downloads/egasimov/aznum2words/total&#41;)
+
+## Məlumat | Description
+
+**AzNum2Words** - Azərbaycan dilində ədədlərin sözlə yazılışı(və ya təsviri) üçün nəzərdə tutulan Go 
+dilində yazılmış, açıq qaynaqlı kitabxanadır.
 
 - - -
 
 ## Məqsəd | Goal
-
-Kitabxana tam vəya kəsr ədədlərin Azərbaycan dilində sözlə yazılışı(və ya təsviri) üçün nəzərdə tutulub.
+Azərbaycan dilində ədədlərin(və ya rəqəmlərin) sözlə yazılış təsvirinə ehtiyac yarandığı hallar olur. Proqram səviyyəsində bu kimi ehtiyacları qarşılamaq üçün vahid bir kitabxananın olması, proqramçıların işini xeyli asanlaşdırır.
+Kitabxana tam və ya kəsr ədədlərin Azərbaycan dilində sözlə yazılışı(və ya təsviri) üçün nəzərdə tutulub.
 
 - - -
 
 ## İstifadə formaları | Usage forms
 
-Həm [library kimi](#kitabxana-kimi-istifadə-qaydası--guideline-for-using-as-library), həm
+Həm [library](#kitabxana-kimi-istifadə-qaydası--guideline-for-using-as-library), həm
 də [command-line tool](#cli-kimi-istifadə-qaydası--guideline-for-using-as-cli-app) kimi istifadə edilə bilər.
 
-Bu kitabxana vasitəsilə - müsbət, mənfi tam vəya kəsr ədədlərin sözlə təsvirini əldə etmək mümkündür.
+Bu kitabxana vasitəsilə - müsbət, mənfi tam və ya kəsr ədədlərin sözlə yazılış təsvirini əldə etmək mümkündür.
 
 - - -
 

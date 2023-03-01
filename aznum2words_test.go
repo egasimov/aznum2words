@@ -1,6 +1,7 @@
 package aznum2words
 
 import (
+	"fmt"
 	"github.com/egasimov/aznum2words/fixtures"
 	"reflect"
 	"testing"
@@ -109,5 +110,35 @@ func Test_SpellNumber_WhereNegativeFloatingPointNumber(t *testing.T) {
 				actual, len(actual))
 
 		}
+	}
+}
+
+func BenchmarkSpellNumber(b *testing.B) {
+	dataTable := []struct {
+		input string
+	}{
+		{
+			input: "12345",
+		},
+		{
+			input: "1234567890",
+		},
+		{
+			input: "1234567890123456789012345"},
+		{
+			input: "12345678901234567890123456789012345678901234567890",
+		},
+		{
+			input: "493882371553121860890561055192142938414552660618128252927700430053",
+		},
+	}
+
+	for _, v := range dataTable {
+		testName := fmt.Sprintf("digitCnt-%d_gomaxproc", len(v.input))
+		b.Run(testName, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				SpellNumber(v.input)
+			}
+		})
 	}
 }

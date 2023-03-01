@@ -8,7 +8,7 @@
 -->
 
 ![aznum2words logo](assets/img/logo-v2.png)
-
+- - -
 ![CI](https://github.com/egasimov/aznum2words/actions/workflows/ci.yml/badge.svg?branch=master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/egasimov/aznum2words)](https://goreportcard.com/report/github.com/egasimov/aznum2words)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/egasimov/aznum2words?sort=semver)
@@ -21,7 +21,6 @@
 [//]: # ([![Github Last Commit]&#40;https://img.shields.io/github/last-commit/egasimov/aznum2words?color=61dfc6&label=last%20commit&#41;]&#40;&#41;)
 [//]: # (![GitHub all releases]&#40;https://img.shields.io/github/downloads/egasimov/aznum2words/total&#41;)
 
-## Məlumat | Description
 
 **AzNum2Words** - Azərbaycan dilində ədədlərin sözlə yazılışı(və ya təsviri) üçün nəzərdə tutulan Go 
 dilində yazılmış, açıq qaynaqlı kitabxanadır.
@@ -109,7 +108,7 @@ beş milyard altı yüz on bir milyon bir yüz on üç min iki yüz on
 
 ```shell
 // installs the binaries into $GOPATH/bin
-go install github.com/egasimov/aznum2words@latest
+go install github.com/egasimov/aznum2words/cmd/cliapp/aznum2words-cli@latest
 ```
 
 ## CLI kimi istifadə qaydası | Guideline for using as CLI app
@@ -128,8 +127,15 @@ mənfi on iki tam onda üç
 ## Test caseləri yoxlanması | Check test cases
 
 ```shell
-go test ./..
+go test ./...
 ```
+
+## Benchmark yoxlanılması
+
+```shell
+go test -bench=. -run=^# -benchmem
+```
+
 
 - - -
 

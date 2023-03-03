@@ -2,6 +2,6 @@ test:
 	go test ./...
 
 build:
-	go build cmd/cliapp/aznum2words-cli.go
+	go build cmd/aznum2words-cli/aznum2words-cli.go
 
 .DEFAULT_GOAL := build

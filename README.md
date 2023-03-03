@@ -108,7 +108,7 @@ beş milyard altı yüz on bir milyon bir yüz on üç min iki yüz on
 
 ```shell
 // installs the binaries into $GOPATH/bin
-go install github.com/egasimov/aznum2words/cmd/cliapp/aznum2words-cli@latest
+go install github.com/egasimov/aznum2words/cmd/aznum2words-cli@latest
 ```
 
 ## CLI kimi istifadə qaydası | Guideline for using as CLI app

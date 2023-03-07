@@ -1,0 +1,151 @@
+openapi: 3.0.3
+
+info:
+  version: 0.0.1
+  title: AzNum2Words service
+  description: |
+    API for converting number to words in Azerbaijani
+
+tags:
+  - name: AzNum2Words
+    description: API for converting number to words in Azerbaijani
+
+paths:
+  /api/v1/conversion/to-word:
+    parameters:
+      - $ref: '#/components/parameters/x-correlation-id'
+    post:
+      summary: Convert number to words in Azerbaijani
+      description: Convert number to words in Azerbaijani
+      operationId: convertNumberToWord
+      tags:
+        - AzNum2Words
+      requestBody:
+        $ref: '#/components/requestBodies/ConvertNumberToWordsRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/ConvertNumberToWordsResponse'
+        default:
+          $ref: '#/components/responses/UnknownError'
+
+  /api/v1/conversion/to-number:
+    parameters:
+      - $ref: '#/components/parameters/x-correlation-id'
+    post:
+      summary: Convert words in Azerbaijani to number
+      description: Convert words in Azerbaijani to number
+      operationId: convertWordsToNumber
+      tags:
+        - AzNum2Words
+      requestBody:
+        $ref: '#/components/requestBodies/ConvertWordsToNumberRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/ConvertWordsToNumberResponse'
+        default:
+          $ref: '#/components/responses/UnknownError'
+
+components:
+  schemas:
+    Error:
+      type: object
+      description: Representation of an Error that can appear using the application.
+      required:
+        - code
+        - message
+      properties:
+        code:
+          description: The code of an error that describes the Error.
+          type: string
+        message:
+          description: The message of an error that describes the Error.
+          type: string
+
+    ConvertNumberToWords:
+      type: object
+      description: Convert number to words request representation
+      required:
+        - number
+      properties:
+        number:
+          description: The number to be converted to words
+          type: string
+
+    ConvertWordsToNumber:
+      type: object
+      description: Convert words to number request representation
+      required:
+        - words
+      properties:
+        words:
+          description: The words to be converted to number
+          type: string
+
+    Word:
+      type: object
+      description: The number representation in words
+      required:
+        - words
+      properties:
+        words:
+          description: The number representation in words
+          type: string
+
+    Number:
+      type: object
+      description: Words representation in number
+      required:
+        - number
+      properties:
+        number:
+          description: Words representation in number
+          type: string
+
+  responses:
+    UnknownError:
+      description: The unknown error appeared. Check your payload or contact support.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ConvertNumberToWordsResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Word'
+
+    ConvertWordsToNumberResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Number'
+
+  requestBodies:
+    ConvertNumberToWordsRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ConvertNumberToWords"
+
+    ConvertWordsToNumberRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ConvertWordsToNumber"
+
+  parameters:
+    x-correlation-id:
+      in: header
+      name: x-correlation-id
+      required: false
+      description: >
+        The unique request identifier
+      schema:
+        type: string
+        format: uuid
+

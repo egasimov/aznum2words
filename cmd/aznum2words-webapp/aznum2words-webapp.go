@@ -11,7 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 	echomiddleware "github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
-	"time"
+	"os"
 )
 
 var LoggerConfig = echomiddleware.LoggerConfig{
@@ -23,7 +23,7 @@ var LoggerConfig = echomiddleware.LoggerConfig{
 
 func main() {
 	var err error
-	_, err = flags.Parse(&config.Opts)
+	_, err = flags.Parse(&config.Conf)
 	if err != nil {
 		panic(err)
 	}
@@ -36,6 +36,11 @@ func main() {
 
 	// This is how you set up a basic Echo router
 	e := echo.New()
+	//Add x-correlation-id header to response
+	e.Use(echomiddleware.RequestIDWithConfig(
+		echomiddleware.RequestIDConfig{
+			TargetHeader: echo.HeaderXCorrelationID,
+		}))
 	// Log all requests
 	e.Use(echomiddleware.LoggerWithConfig(LoggerConfig))
 
@@ -44,54 +49,28 @@ func main() {
 	registerHealthCheckProbes(e)
 
 	// And we serve HTTP until the world ends.
-	e.Logger.Fatal(e.Start("0.0.0.0:" + config.Conf.Port))
+	e.Logger.Fatal(e.Start(config.Conf.Host + ":" + config.Conf.Port))
 }
 
 func initEnvVars() {
-	if godotenv.Load("cmd/aznum2words-webapp/profile/default.env") != nil {
-		log.Fatal("Error in loading environment variables from: profiles/default.env")
-	} else {
-		log.Info("Environment variables loaded from: profiles/default.env")
+	var env = os.Getenv("ENVIRONMENT")
+	if len(env) == 0 {
+		env = "default"
 	}
-
-	if config.Opts.Profile != "default" {
-		profileFileName := "profile/" + config.Opts.Profile + ".env"
-		if godotenv.Overload(profileFileName) != nil {
-			log.Fatal("Error in loading environment variables from: ", profileFileName)
-		} else {
-			log.Info("Environment variables overloaded from: ", profileFileName)
-		}
+	profileFileName := "cmd/aznum2words-webapp/profile/" + env + ".env"
+	if godotenv.Load(profileFileName) != nil {
+		log.Fatal("Error in loading environment variables from: ", profileFileName)
+	} else {
+		log.Info("Environment variables overloaded from: ", profileFileName)
 	}
 }
 
 func registerHealthCheckProbes(e *echo.Echo) {
 	checker := health.NewChecker(
-
-		// Set the time-to-live for our cache to 1 second (default).
-		health.WithCacheDuration(1*time.Second),
-
-		// Configure a global timeout that will be applied to all checks.
-		health.WithTimeout(10*time.Second),
-
-		// The following check will be executed periodically every 15 seconds
-		// started with an initial delay of 3 seconds. The check function will NOT
-		// be executed for each HTTP request.
-		health.WithPeriodicCheck(15*time.Second, 3*time.Second, health.Check{
-			Name: "aznum2words",
-			// The check function checks the health of a component. If an error is
-			// returned, the component is considered unavailable (or "down").
-			// The context contains a deadline according to the configured timeouts.
-			Check: func(ctx context.Context) error {
-				return nil
-			},
-		}),
-
 		// Set a status listener that will be invoked when the health status changes.
-		// More powerful hooks are also available (see docs).
 		health.WithStatusListener(func(ctx context.Context, state health.CheckerState) {
 			log.Info(fmt.Sprintf("health status changed to %s", state.Status))
 		}),
 	)
-
 	e.GET("/health", echo.WrapHandler(health.NewHandler(checker)))
 }

@@ -6,6 +6,9 @@ info:
   description: |
     API for converting number to words in Azerbaijani
 
+servers:
+  - url: http://localhost:8080
+
 tags:
   - name: AzNum2Words
     description: API for converting number to words in Azerbaijani
@@ -147,5 +150,4 @@ components:
         The unique request identifier
       schema:
         type: string
-        format: uuid
 

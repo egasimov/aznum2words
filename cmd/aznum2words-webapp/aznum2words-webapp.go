@@ -10,6 +10,13 @@ import (
 	"github.com/labstack/gommon/log"
 )
 
+var LoggerConfig = echomiddleware.LoggerConfig{
+	Format: `{"time":"${time_rfc3339_nano}","x-correlation-id":"${header:x-correlation-id}","remote_ip":"${remote_ip}",` +
+		`"host":"${host}","method":"${method}","uri":"${uri}","user_agent":"${user_agent}",` +
+		`"status":${status},"error":"${error}","latency":${latency},"latency_human":"${latency_human}"}` + "\n",
+	CustomTimeFormat: "2006-01-02 15:04:05.00000",
+}
+
 func main() {
 	var err error
 	_, err = flags.Parse(&config.Opts)
@@ -26,7 +33,7 @@ func main() {
 	// This is how you set up a basic Echo router
 	e := echo.New()
 	// Log all requests
-	e.Use(echomiddleware.Logger())
+	e.Use(echomiddleware.LoggerWithConfig(LoggerConfig))
 
 	// We now register our petStore above as the handler for the interface
 	api.RegisterHandlers(e, azNum2WordsApi)

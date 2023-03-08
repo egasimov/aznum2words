@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/alexflint/go-arg v1.4.3
+	github.com/alexliesenfeld/health v0.6.0
 	github.com/deepmap/oapi-codegen v1.12.4
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.5.1

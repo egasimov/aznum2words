@@ -1,31 +1,27 @@
 package main
 
 import (
-	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/api"
+	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/api/converter"
+	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/api/health"
 	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/config"
+	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/constant"
 	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/handler"
 	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/router"
-	"github.com/jessevdk/go-flags"
 	"github.com/joho/godotenv"
 	"github.com/labstack/gommon/log"
 	"os"
 )
 
 func main() {
-	var err error
-	_, err = flags.Parse(&config.Conf)
-	if err != nil {
-		panic(err)
-	}
-
 	initEnvVars()
 	config.LoadConfig()
 
 	// Create an instance of our handler which satisfies the generated interface
-	var azNum2WordsApi = new(api.AzNum2WordsApi)
+	var converterApi = new(converter.Api)
+	var healthApi = new(health.Api)
 
 	r := router.New()
-	h := handler.NewHandler(azNum2WordsApi)
+	h := handler.NewHandler(converterApi, healthApi)
 	h.Register(r)
 
 	// And we serve HTTP until the world ends.
@@ -33,14 +29,15 @@ func main() {
 }
 
 func initEnvVars() {
-	var env = os.Getenv("ENVIRONMENT")
+	var env = os.Getenv(constant.DeployEnvKey)
 	if len(env) == 0 {
 		env = "default"
 	}
 	profileFileName := "cmd/aznum2words-webapp/profile/" + env + ".env"
-	if godotenv.Load(profileFileName) != nil {
-		log.Fatal("Error in loading environment variables from: ", profileFileName)
+	if err := godotenv.Load(profileFileName); err != nil {
+		log.Fatalf("Error in loading environment variables from '%s' with error description '%s'",
+			profileFileName, err)
 	} else {
-		log.Info("Environment variables overloaded from: ", profileFileName)
+		log.Infof("Environment variables overloaded from: %s", profileFileName)
 	}
 }

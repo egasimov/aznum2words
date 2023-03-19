@@ -5,7 +5,7 @@ import (
 	echomiddleware "github.com/labstack/echo/v4/middleware"
 )
 
-var LoggerConfig = echomiddleware.LoggerConfig{
+var loggerConfig = echomiddleware.LoggerConfig{
 	Format: `{"time":"${time_rfc3339_nano}","x-correlation-id":"${header:x-correlation-id}","remote_ip":"${remote_ip}",` +
 		`"host":"${host}","method":"${method}","uri":"${uri}","user_agent":"${user_agent}",` +
 		`"status":${status},"error":"${error}","latency":${latency},"latency_human":"${latency_human}"}` + "\n",
@@ -19,7 +19,7 @@ func New() *echo.Echo {
 			TargetHeader: echo.HeaderXCorrelationID,
 		}))
 	// Log all requests
-	e.Use(echomiddleware.LoggerWithConfig(LoggerConfig))
+	e.Use(echomiddleware.LoggerWithConfig(loggerConfig))
 
 	return e
 }

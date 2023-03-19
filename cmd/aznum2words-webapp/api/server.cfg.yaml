@@ -1,8 +1,0 @@
-package: api
-output: aznum2words-server.gen.go
-additional-imports:
-  - package: github.com/egasimov/aznum2words/cmd/aznum2words-webapp/api/models
-    alias: .
-generate:
-  echo-server: true
-  embedded-spec: true

@@ -12,6 +12,8 @@ servers:
 tags:
   - name: AzNum2Words
     description: API for converting number to words in Azerbaijani
+  - name: Health
+    description: API related to the health of the service
 
 paths:
   /api/v1/conversion/to-word:
@@ -47,6 +49,17 @@ paths:
           $ref: '#/components/responses/ConvertWordsToNumberResponse'
         default:
           $ref: '#/components/responses/UnknownError'
+
+  /health:
+    get:
+      summary: Check the health of the service
+      description: Returns a 200 OK response if the service is healthy
+      tags:
+        - Health
+      responses:
+        200:
+          description: The service is healthy
+
 
 components:
   schemas:

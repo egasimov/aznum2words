@@ -37,6 +37,7 @@ Kitabxana tam və ya kəsr ədədlərin Azərbaycan dilində sözlə yazılış�
 
 Həm [library](#kitabxana-kimi-istifadə-qaydası--guideline-for-using-as-library), həm
 də [command-line tool](#cli-kimi-istifadə-qaydası--guideline-for-using-as-cli-app) kimi istifadə edilə bilər.
+Bundan əlavə [web-app](#web-app-kimi-istifadə-qaydası--guideline-for-using-as-web-app) kimi də istifadə edərək mövcud sisteminə integrasiya etmək mümkündür.
 
 Bu kitabxana vasitəsilə - müsbət, mənfi tam və ya kəsr ədədlərin sözlə yazılış təsvirini əldə etmək mümkündür.
 
@@ -121,6 +122,32 @@ $ aznum2words-cli -- -12.3
 mənfi on iki tam onda üç
 
 ```
+- - -
+
+## Web app kimi quraşdırılması | Web-App Installations
+
+```shell
+// Clone the repository
+git clone https://github.com/egasimov/aznum2words.git@latest
+```
+
+## Web app kimi istifadə qaydası | Guideline for using as Web app
+
+```shell
+$ cd ./cmd/aznum2words-webapp/ 
+$ go run ./aznum2words-webapp.go
+```
+
+```shell
+curl --location 'http://localhost:8080/api/v1/conversion/to-word' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--data '{
+  "number": "123.45"
+}'
+```
+
+_Qeyd: [open-api-spec contract](cmd/aznum2words-webapp/aznum2words-openapi.yaml) istifadə edərək  [online swagger-ui](https://editor.swagger.io/), Postman kimi alətlər ilə REST APİ-ni interaktiv test etmək mümkündür._
 
 - - -
 

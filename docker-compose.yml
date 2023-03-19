@@ -1,0 +1,19 @@
+services:
+  aznum2words-webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile.webapp
+    #    image: "aznum2words:0.0.1"
+    restart: on-failure
+    pull_policy: always
+    networks:
+      - aznum2words-network
+    ports:
+      - "8080:8080"
+    environment:
+      - DEPLOY_ENV=DEV
+      - PORT=8080
+networks:
+  aznum2words-network:
+    ipam:
+      driver: default

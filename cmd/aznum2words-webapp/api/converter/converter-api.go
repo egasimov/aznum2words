@@ -17,20 +17,29 @@ func (a *Api) ConvertWordsToNumber(ctx echo.Context, params ConvertWordsToNumber
 
 func (a *Api) ConvertNumberToWord(ctx echo.Context, params ConvertNumberToWordParams) error {
 	var convertRequest ConvertNumberToWordsRequest
-	var err error
-	err = ctx.Bind(&convertRequest)
-	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, UnknownError{Code: constant.ErrRequestBodyInvalid,
-			Message: "Request is invalid"})
+
+	if err := ctx.Bind(&convertRequest); err != nil {
+		return ctx.JSON(
+			http.StatusBadRequest,
+			UnknownError{
+				Code:    constant.ErrRequestBodyInvalid,
+				Message: err.Error()},
+		)
 	}
 
-	var words string
-	words, err = aznum2words.SpellNumber(convertRequest.Number)
+	result, err := aznum2words.SpellNumber(convertRequest.Number)
 	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, UnknownError{Code: constant.ErrInternalServerError,
-			Message: "Internal server error occurred"})
+		return ctx.JSON(
+			http.StatusBadRequest,
+			UnknownError{
+				Code:    constant.ErrRequestBodyInvalid,
+				Message: err.Error(),
+			},
+		)
 	}
 
-	var responseBody = ConvertNumberToWordsResponse{Words: words}
+	var responseBody = ConvertNumberToWordsResponse{
+		Words: result,
+	}
 	return ctx.JSON(http.StatusOK, responseBody)
 }

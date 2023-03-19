@@ -14,6 +14,8 @@ var loggerConfig = echomiddleware.LoggerConfig{
 
 func New() *echo.Echo {
 	e := echo.New()
+
+	e.Use(echomiddleware.CORS())
 	e.Use(echomiddleware.RequestIDWithConfig(
 		echomiddleware.RequestIDConfig{
 			TargetHeader: echo.HeaderXCorrelationID,

@@ -11,7 +11,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - DEPLOY_ENV=DEV
+      - DEPLOY_ENV=STAGING
       - PORT=8080
 networks:
   aznum2words-network:

@@ -38,8 +38,8 @@ jobs:
     - name: Build
       run: go build -v ./...
 
-#     - name: Test
-#       run: go test -v ./...
+    - name: Test CLI-APP integration
+      run: make cliapp.test.integration.debug
 
     - name: Run coverage
       run: go test -json ./... -coverprofile=coverage.txt -covermode=atomic

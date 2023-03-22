@@ -2,16 +2,16 @@ openapi: 3.0.3
 
 info:
   version: 0.0.1
-  title: AzNum2Words service
+  title: AzNum2Words API
   description: |
-    API for converting number to words in Azerbaijani
+    REST API for converting number to words in Azerbaijani language
 
 servers:
   - url: http://localhost:8080
 
 tags:
-  - name: AzNum2Words
-    description: API for converting number to words in Azerbaijani
+  - name: Converter
+    description: API for converting number to words in Azerbaijani language
   - name: Health
     description: API related to the health of the service
 
@@ -24,7 +24,7 @@ paths:
       description: Convert number to words in Azerbaijani
       operationId: convertNumberToWord
       tags:
-        - AzNum2Words
+        - Converter
       requestBody:
         $ref: '#/components/requestBodies/ConvertNumberToWordsRequest'
       responses:
@@ -41,7 +41,7 @@ paths:
       description: Convert words in Azerbaijani to number
       operationId: convertWordsToNumber
       tags:
-        - AzNum2Words
+        - Converter
       requestBody:
         $ref: '#/components/requestBodies/ConvertWordsToNumberRequest'
       responses:
@@ -52,7 +52,7 @@ paths:
 
   /health:
     get:
-      summary: Check the health of the service
+      summary: Check the healthapi of the service
       description: Returns a 200 OK response if the service is healthy
       tags:
         - Health

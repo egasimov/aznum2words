@@ -1,4 +1,4 @@
-package health
+package healthapi
 
 import (
 	"github.com/labstack/echo/v4"

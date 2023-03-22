@@ -1,0 +1,8 @@
+package: healthapi
+output: healthapi/healthapi-server.gen.go
+generate:
+  echo-server: true
+  embedded-spec: true
+output-options:
+  include-tags:
+    - Health

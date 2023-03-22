@@ -147,7 +147,7 @@ curl --location 'http://localhost:8080/api/v1/conversion/to-word' \
 }'
 ```
 
-_Qeyd: [open-api-spec contract](cmd/aznum2words-webapp/aznum2words-openapi.yaml) istifadə edərək  [online swagger-ui](https://editor.swagger.io/), Postman kimi alətlər ilə REST APİ-ni interaktiv test etmək mümkündür._
+_Qeyd: [open-api-spec contract](cmd/aznum2words-webapp/api/open-api-spec.yaml) istifadə edərək  [online swagger-ui](https://editor.swagger.io/), Postman kimi alətlər ilə REST APİ-ni interaktiv test etmək mümkündür._
 
 - - -
 

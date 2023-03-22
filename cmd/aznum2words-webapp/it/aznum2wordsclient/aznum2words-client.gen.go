@@ -348,7 +348,7 @@ func NewGetHealthRequest(server string) (*http.Request, error) {
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/health")
+	operationPath := fmt.Sprintf("/healthapi")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}

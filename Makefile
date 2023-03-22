@@ -2,6 +2,12 @@
 test:
 	go test ./...
 
+app.generate:
+	cd ./cmd/aznum2words-webapp/api \
+	&& oapi-codegen -config models.cfg.yaml ./open-api-spec.yaml \
+	&& oapi-codegen -config converter-server.cfg.yaml ./open-api-spec.yaml \
+	&& oapi-codegen -config health-server.cfg.yaml ./open-api-spec.yaml
+
 ### WEBAPP
 # we will put our integration testing in this path
 WEBAPP_INTEGRATION_TEST_PATH?=./cmd/aznum2words-webapp/it

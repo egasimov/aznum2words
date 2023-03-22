@@ -1,20 +1,20 @@
 package handler
 
 import (
-	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/api/converter"
-	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/api/health"
+	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/api/converterapi"
+	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/api/healthapi"
 	"github.com/labstack/echo/v4"
 )
 
 // Handler ...
 type Handler struct {
-	converterApi *converter.Api
-	healthApi    *health.Api
+	converterApi *converterapi.Api
+	healthApi    *healthapi.Api
 }
 
 // NewHandler ...
 
-func NewHandler(c *converter.Api, h *health.Api) *Handler {
+func NewHandler(c *converterapi.Api, h *healthapi.Api) *Handler {
 	return &Handler{
 		converterApi: c,
 		healthApi:    h,
@@ -23,6 +23,6 @@ func NewHandler(c *converter.Api, h *health.Api) *Handler {
 
 // Register ...
 func (h *Handler) Register(e *echo.Echo) {
-	converter.RegisterHandlers(e, h.converterApi)
-	health.RegisterHandlers(e, h.healthApi)
+	converterapi.RegisterHandlers(e, h.converterApi)
+	healthapi.RegisterHandlers(e, h.healthApi)
 }

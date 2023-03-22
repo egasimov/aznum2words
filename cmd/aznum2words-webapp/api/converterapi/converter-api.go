@@ -1,8 +1,8 @@
-package converter
+package converterapi
 
 import (
 	"github.com/egasimov/aznum2words"
-	. "github.com/egasimov/aznum2words/cmd/aznum2words-webapp/api/converter/models"
+	. "github.com/egasimov/aznum2words/cmd/aznum2words-webapp/api/models"
 	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/constant"
 	"github.com/labstack/echo/v4"
 	"net/http"

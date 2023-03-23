@@ -103,6 +103,14 @@ func Test_validNumberRegex(t *testing.T) {
 			expected: true,
 		},
 		{
+			given:    "0.0",
+			expected: true,
+		},
+		{
+			given:    "00.5",
+			expected: false,
+		},
+		{
 			given:    "some-test",
 			expected: false,
 		},
@@ -113,7 +121,7 @@ func Test_validNumberRegex(t *testing.T) {
 	}
 
 	for _, testCase := range testCases {
-		actual := validNumberRegex.MatchString(testCase.given)
+		actual := validateNumberRegex2.MatchString(testCase.given)
 
 		if !reflect.DeepEqual(actual, testCase.expected) {
 			t.Error("For", "Validation of  `validNumberRegex` ",

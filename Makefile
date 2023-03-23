@@ -41,11 +41,15 @@ webapp.test.integration.debug: webapp.docker.start.components
 #### CLI APP
 # we will put our cli-app related integration testing in this path
 CLIAPP_INTEGRATION_TEST_PATH?=./cmd/aznum2words-cli
+
 cliapp.build:
+	go build cmd/aznum2words-cli/aznum2words-cli.go
+
+cliapp.build.integration:
 	go build -tags integration cmd/aznum2words-cli/aznum2words-cli.go
 
-cliapp.test.integration: cliapp.build
+cliapp.test.integration: cliapp.build.integration
 	go test -tags=integration $(CLIAPP_INTEGRATION_TEST_PATH) -count=1 -run=$(CLIAPP_INTEGRATION_TEST_PATH)
 
-cliapp.test.integration.debug: cliapp.build
+cliapp.test.integration.debug: cliapp.build.integration
 	go test -tags=integration $(CLIAPP_INTEGRATION_TEST_PATH) -count=1 -v -run=$(CLIAPP_INTEGRATION_TEST_PATH)

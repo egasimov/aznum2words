@@ -58,6 +58,7 @@ const (
 )
 
 const (
-	NegativeAsWord  string = "mənfi" // -
-	SeparatorAsWord string = "tam"
+	NegativeAsWord        string = "mənfi" // -
+	SeparatorAsWord       string = "tam"
+	DecimalPointSeparator string = "."
 )

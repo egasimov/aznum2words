@@ -5,10 +5,11 @@ import (
 	"strings"
 )
 
-var validNumberRegex = regexp.MustCompile("^-?\\d+(\\.\\d+)?$")
+//var validNumberRegex = regexp.MustCompile("^-?\\d+(\\.\\d+)?$")
+var validateNumberRegex2 = regexp.MustCompile("^(-|\\+)?(([1-9][0-9]*)|(0))(?:\\.[0-9]+)?$")
 
 func validateInput(numberAsStr string) error {
-	if ok := validNumberRegex.MatchString(numberAsStr); !ok {
+	if ok := validateNumberRegex2.MatchString(numberAsStr); !ok {
 		return ErrInvalidArgument
 	}
 	return nil
@@ -21,7 +22,7 @@ func validateInput(numberAsStr string) error {
 // Max allowed number digits - only ones from left side of decimal point should be less or equal to 66.
 func checkConstraints(numberAsStr string) error {
 	numberAsStr = removeSignMarkIfExists(numberAsStr)
-	isFloatingNumber := strings.Contains(numberAsStr, ".")
+	isFloatingNumber := strings.Contains(numberAsStr, DecimalPointSeparator)
 
 	if !isFloatingNumber {
 		if len(numberAsStr) > MaxNumberDigitCount {
@@ -31,7 +32,7 @@ func checkConstraints(numberAsStr string) error {
 		return nil
 	}
 
-	slices := strings.Split(numberAsStr, ".")
+	slices := strings.Split(numberAsStr, DecimalPointSeparator)
 
 	//check number of digits on the left side of decimal point
 	if len(slices[0]) > MaxNumberDigitCount {

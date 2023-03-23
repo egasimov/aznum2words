@@ -76,7 +76,7 @@ func SpellNumber(numberAsStr string) (string, error) {
 		return "", err
 	}
 
-	isFloatingNumber := strings.Contains(numberAsStr, ".")
+	isFloatingNumber := strings.Contains(numberAsStr, DecimalPointSeparator)
 	if isFloatingNumber {
 		return handleFloatingPointNumberConversion(numberAsStr)
 	}
@@ -99,7 +99,13 @@ func handleIntegerNumberConversion(intValueAsStr string) (string, error) {
 		wordBuilder = append(wordBuilder, signKeyword)
 	}
 
-	spelledInteger := convertIntPart(intValueAsStr)
+	intValueWithoutSign := removeSignMarkIfExists(intValueAsStr)
+	spelledInteger := convertIntPart(intValueWithoutSign)
+
+	// handling case: intValueAsStr is '-0'
+	if intValueWithoutSign == "0" {
+		return spelledInteger, nil
+	}
 
 	wordBuilder = append(wordBuilder, spelledInteger)
 
@@ -115,7 +121,8 @@ func handleFloatingPointNumberConversion(floatValueAsStr string) (string, error)
 		return "", err
 	}
 
-	slices := strings.Split(floatValueAsStr, ".")
+	floatValueAsStr = removeSignMarkIfExists(floatValueAsStr)
+	slices := strings.Split(floatValueAsStr, DecimalPointSeparator)
 
 	intPartAsWord := convertIntPart(slices[0])
 
@@ -124,15 +131,23 @@ func handleFloatingPointNumberConversion(floatValueAsStr string) (string, error)
 	//sanitize floatingPart by removing trailing zeros if exist
 	floatingPart = strings.TrimRight(floatingPart, "0")
 
-	floatingPartAsIntegerWithWord := convertIntPart(floatingPart)
+	// handling the special case: floatValueAsStr is "0.0"
+	if slices[0] == "0" && len(floatingPart) == 0 {
+		return intPartAsWord, nil
+	}
 
-	cnt := len(floatingPart)
-	separatorKey := int(math.Pow10(cnt))
+	var floatingPartAsIntegerWithWord string
+	var suffix string
+	if len(floatingPart) != 0 {
+		floatingPartAsIntegerWithWord = convertIntPart(floatingPart)
+		cnt := len(floatingPart)
+		separatorKey := int(math.Pow10(cnt))
+		resultSuffix, ok := floatingPointDict[separatorKey]
 
-	suffix, ok := floatingPointDict[separatorKey]
-
-	if !ok {
-		return "", ErrTooBigScale
+		if !ok {
+			return "", ErrTooBigScale
+		}
+		suffix = resultSuffix
 	}
 
 	wordBuilder := make([]string, 0)
@@ -140,9 +155,13 @@ func handleFloatingPointNumberConversion(floatValueAsStr string) (string, error)
 		wordBuilder = append(wordBuilder, signKeyword)
 	}
 	wordBuilder = append(wordBuilder, intPartAsWord)
-	wordBuilder = append(wordBuilder, SeparatorAsWord)
-	wordBuilder = append(wordBuilder, suffix)
-	wordBuilder = append(wordBuilder, floatingPartAsIntegerWithWord)
+
+	// handling for cases: floatValueAsStr is XXX.00
+	if len(suffix) != 0 {
+		wordBuilder = append(wordBuilder, SeparatorAsWord)
+		wordBuilder = append(wordBuilder, suffix)
+		wordBuilder = append(wordBuilder, floatingPartAsIntegerWithWord)
+	}
 
 	return strings.Join(wordBuilder, " "), nil
 }

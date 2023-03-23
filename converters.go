@@ -21,11 +21,12 @@ func getSignSymbolAsWord(str string) (string, error) {
 	return sign, nil
 }
 
-// Remove the sign mark('-') from str
+// Remove the sign mark:('-' or '+') from str
 // removeSignMarkIfExists("-123") -> "123"
+// removeSignMarkIfExists("+123") -> "123"
 // removeSignMarkIfExists("123") -> "123"
 func removeSignMarkIfExists(str string) string {
-	if len(str) > 1 && str[0:1] == "-" {
+	if len(str) > 1 && (str[0:1] == "-" || str[0:1] == "+") {
 		return str[1:]
 	}
 

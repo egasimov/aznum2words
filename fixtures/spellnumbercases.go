@@ -90,6 +90,11 @@ func SpellNumberForNegativeFloatingPointNumbers() []TestCaseSpellNumber {
 	return []TestCaseSpellNumber{
 		{
 			Description: testCaseDescription,
+			Given:       "-0.0",
+			Expected:    "sıfır",
+		},
+		{
+			Description: testCaseDescription,
 			Given:       "-12.1",
 			Expected:    "mənfi on iki tam onda bir",
 		},
@@ -148,4 +153,41 @@ func SpellNumberForNegativeFloatingPointNumbers() []TestCaseSpellNumber {
 			Given:       "-0.541179354594",
 			Expected:    "mənfi sıfır tam bir trilyonda beş yüz qırx bir milyard bir yüz yetmiş doqquz milyon üç yüz əlli dörd min beş yüz doxsan dörd",
 		}}
+}
+
+func SpellNumberForSpecialInput() []TestCaseSpellNumber {
+	testCaseDescription := "Test Case: special input"
+
+	return []TestCaseSpellNumber{
+		{
+			Description: testCaseDescription,
+			Given:       "5.00",
+			Expected:    "beş",
+		},
+		{
+			Description: testCaseDescription,
+			Given:       "-5.00",
+			Expected:    "mənfi beş",
+		},
+		{
+			Description: testCaseDescription,
+			Given:       "0.0",
+			Expected:    "sıfır",
+		},
+		{
+			Description: testCaseDescription,
+			Given:       "-0.0",
+			Expected:    "sıfır",
+		},
+		{
+			Description: testCaseDescription,
+			Given:       "0",
+			Expected:    "sıfır",
+		},
+		{
+			Description: testCaseDescription,
+			Given:       "-0",
+			Expected:    "sıfır",
+		},
+	}
 }

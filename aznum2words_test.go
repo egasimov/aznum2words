@@ -113,6 +113,41 @@ func Test_SpellNumber_WhereNegativeFloatingPointNumber(t *testing.T) {
 	}
 }
 
+func Test_SpellNumber_WhereSpecialInputProvided(t *testing.T) {
+
+	testCases := fixtures.SpellNumberForSpecialInput()
+	for _, testCaseSpellNumber := range testCases {
+		actual, err := SpellNumber(testCaseSpellNumber.Given)
+
+		if err != nil {
+			t.Errorf("For %s "+
+				"\n Given: %s, len: %d "+
+				"\n Expected: %s, len: %d"+
+				"\n Got: %s",
+				testCaseSpellNumber.Description,
+				testCaseSpellNumber.Given, len(testCaseSpellNumber.Given),
+				testCaseSpellNumber.Expected, len(testCaseSpellNumber.Expected),
+				err.Error())
+		}
+
+		if !reflect.DeepEqual(actual, testCaseSpellNumber.Expected) {
+			//t.Error("For", testCase.Description,
+			//	"\n Given: ", testCase.Given,
+			//	"\n Expected: ", testCase.Expected,
+			//	"\n Got: ", actual)
+			t.Errorf("For %s "+
+				"\n Given: %s, len: %d "+
+				"\n Expected: %s, len: %d"+
+				"\n Got: %s, len: %d",
+				testCaseSpellNumber.Description,
+				testCaseSpellNumber.Given, len(testCaseSpellNumber.Given),
+				testCaseSpellNumber.Expected, len(testCaseSpellNumber.Expected),
+				actual, len(actual))
+
+		}
+	}
+}
+
 func BenchmarkSpellNumber(b *testing.B) {
 	dataTable := []struct {
 		input string

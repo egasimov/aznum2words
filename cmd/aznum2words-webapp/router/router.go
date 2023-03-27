@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/labstack/echo-contrib/prometheus"
 	"github.com/labstack/echo/v4"
 	echomiddleware "github.com/labstack/echo/v4/middleware"
 )
@@ -12,16 +13,41 @@ var loggerConfig = echomiddleware.LoggerConfig{
 	CustomTimeFormat: "2006-01-02 15:04:05.00000",
 }
 
-func New() *echo.Echo {
-	e := echo.New()
+func NewMainServer() *echo.Echo {
+	echoMainServer := echo.New()
+	echoMainServer.HideBanner = true
 
-	e.Use(echomiddleware.CORS())
-	e.Use(echomiddleware.RequestIDWithConfig(
+	echoMainServer.Use(echomiddleware.CORS())
+	echoMainServer.Use(echomiddleware.RequestIDWithConfig(
 		echomiddleware.RequestIDConfig{
 			TargetHeader: echo.HeaderXCorrelationID,
 		}))
 	// Log all requests
-	e.Use(echomiddleware.LoggerWithConfig(loggerConfig))
+	echoMainServer.Use(echomiddleware.LoggerWithConfig(loggerConfig))
 
-	return e
+	return echoMainServer
+}
+
+func NewPrometheusServer(echoMainServer *echo.Echo) *echo.Echo {
+	// Create Prometheus server and Middleware
+	echoPrometheus := echo.New()
+	echoPrometheus.HideBanner = true
+
+	echoPrometheus.Use(echomiddleware.CORS())
+	echoPrometheus.Use(echomiddleware.RequestIDWithConfig(
+		echomiddleware.RequestIDConfig{
+			TargetHeader: echo.HeaderXCorrelationID,
+		}))
+	// Log all requests
+	echoPrometheus.Use(echomiddleware.LoggerWithConfig(loggerConfig))
+
+	prom := prometheus.NewPrometheus("echo", nil)
+
+	// Scrape metrics from Main Server
+	echoMainServer.Use(prom.HandlerFunc)
+
+	// Setup metrics endpoint at another server
+	prom.SetMetricsPath(echoPrometheus)
+
+	return echoPrometheus
 }

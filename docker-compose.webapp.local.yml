@@ -9,10 +9,12 @@ services:
     networks:
       - aznum2words-network
     ports:
-      - "8080:${PORT}"
+      - "8080:${APP_PORT}"
+      - "9090:${METRIC_PORT}"
     environment:
       - DEPLOY_ENV=TEST
-      - PORT=8080
+      - APP_PORT=8080
+      - METRIC_PORT=9090
 networks:
   aznum2words-network:
     ipam:

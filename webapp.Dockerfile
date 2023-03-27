@@ -26,6 +26,7 @@ WORKDIR /
 COPY --from=build /aznum2words-go-svc /app/aznum2words-go-svc-exec
 
 EXPOSE 8080
+EXPOSE 9090
 
 USER root
 

@@ -24,14 +24,19 @@ func TestConverterAPI_Success(t *testing.T) {
 		"negative-floating-point-numbers.json",
 	}
 
-	hostVal := os.Getenv("HOST")
-	portVal := os.Getenv("PORT")
-	if portVal == "" {
-		portVal = "8080"
+	appHostVal := os.Getenv("APP_HOST")
+	appPortVal := os.Getenv("APP_PORT")
+	if appPortVal == "" {
+		appPortVal = "8080"
+	}
+
+	metricPortVal := os.Getenv("METRIC_PORT")
+	if metricPortVal == "" {
+		metricPortVal = "9090"
 	}
 
 	apiClient := aznum2wordsclient.AzNum2WordsClient{
-		Server:         fmt.Sprintf("http://%s:%s", hostVal, portVal),
+		Server:         fmt.Sprintf("http://%s:%s", appHostVal, appPortVal),
 		Client:         http.DefaultClient,
 		RequestEditors: nil,
 	}

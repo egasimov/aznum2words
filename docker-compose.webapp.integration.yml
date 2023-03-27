@@ -10,9 +10,11 @@ services:
       - aznum2words-network
     ports:
       - "8080:8080"
+      - "9090:9090"
     environment:
       - DEPLOY_ENV=STAGING
-      - PORT=8080
+      - APP_PORT=8080
+      - METRIC_PORT=9090
 networks:
   aznum2words-network:
     ipam:

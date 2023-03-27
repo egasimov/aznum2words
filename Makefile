@@ -14,8 +14,9 @@ WEBAPP_INTEGRATION_TEST_PATH?=./cmd/aznum2words-webapp/it
 
 # set of env variables that you need for testing
 WEBAPP_ENV_LOCAL_TEST=\
-  HOST=0.0.0.0 \
-  PORT=8080 \
+  APP_HOST=0.0.0.0 \
+  APP_PORT=8080 \
+  METRIC_PORT=9090 \
   DEPLOY_ENV=LOCAL
 
 # this command will start a docker components that we set in docker-compose.webapp.integration.yml

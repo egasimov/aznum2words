@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"github.com/alexflint/go-arg"
 	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/constant"
 	"github.com/joho/godotenv"
@@ -10,8 +11,25 @@ import (
 
 // Config holds a configuration variables.
 type Config struct {
-	Port string `arg:"-p, env:PORT" default:"8080"`
-	Host string `arg:"-h, env:HOST" default:"0.0.0.0"`
+	AppHost    string `arg:"-h, env:APP_HOST" default:"0.0.0.0"`
+	AppPort    string `arg:"-p, env:APP_PORT" default:"8080"`
+	MetricPort string `arg:"-m, env:METRIC_PORT" default:"9090"`
+}
+
+func (this *Config) GetAppNetListenAddr() string {
+	return fmt.Sprintf(
+		"%s:%s",
+		this.AppHost,
+		this.AppPort,
+	)
+}
+
+func (this *Config) GetMetricNetListenAddr() string {
+	return fmt.Sprintf(
+		"%s:%s",
+		this.AppHost,
+		this.MetricPort,
+	)
 }
 
 var conf *Config = &Config{}

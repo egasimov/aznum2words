@@ -3,7 +3,11 @@ package handler
 import (
 	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/api/converterapi"
 	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/api/healthapi"
+	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/config"
+	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/constant"
 	"github.com/labstack/echo/v4"
+	echoSwagger "github.com/swaggo/echo-swagger"
+	"io/ioutil"
 )
 
 // Handler ...
@@ -25,4 +29,30 @@ func NewHandler(c *converterapi.Api, h *healthapi.Api) *Handler {
 func (h *Handler) Register(e *echo.Echo) {
 	converterapi.RegisterHandlers(e, h.converterApi)
 	healthapi.RegisterHandlers(e, h.healthApi)
+
+	// Add swagger UI endpoints
+	if config.GetConfig().DeployEnv != constant.PRODUCTION_ENVIRONMENT {
+
+		// Serve the OpenAPI documentation
+		e.GET("/openapi.yaml", func(c echo.Context) error {
+			// Read the OpenAPI specification YAML file
+			filePath := "api/open-api-spec.yaml"
+			openapiBytes, err := ioutil.ReadFile(filePath)
+			if err != nil {
+				return err
+			}
+
+			// Set the response headers
+			c.Response().Header().Set(echo.HeaderContentType, "application/x-yaml")
+			c.Response().Write(openapiBytes)
+			return nil
+		})
+
+		// Enable Swagger UI
+		e.GET("/swagger/*", echoSwagger.EchoWrapHandler(
+			func(c *echoSwagger.Config) {
+				c.URL = "/openapi.yaml"
+			}),
+		)
+	}
 }

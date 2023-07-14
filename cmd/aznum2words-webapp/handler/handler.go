@@ -1,10 +1,12 @@
 package handler
 
 import (
+	"fmt"
 	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/api/converterapi"
 	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/api/healthapi"
 	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/config"
 	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/constant"
+	"github.com/egasimov/aznum2words/cmd/aznum2words-webapp/logger"
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
 	"io/ioutil"
@@ -37,6 +39,11 @@ func (h *Handler) Register(e *echo.Echo) {
 }
 
 func registerSwaggerUI(e *echo.Echo) {
+	logger := logger.Logger()
+	defer logger.Sync()
+
+	swaggerUiPath := "/swagger/*"
+
 	// Serve the OpenAPI documentation
 	e.GET("/openapi.yaml", func(c echo.Context) error {
 		// Read the OpenAPI specification YAML file
@@ -58,4 +65,6 @@ func registerSwaggerUI(e *echo.Echo) {
 			c.URL = "/openapi.yaml"
 		}),
 	)
+
+	logger.Info(fmt.Sprintf("Swagger-UI is available at %s%s", config.GetConfig().GetAppNetListenAddr(), swaggerUiPath))
 }

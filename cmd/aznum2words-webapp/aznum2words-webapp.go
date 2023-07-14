@@ -19,12 +19,13 @@ import (
 func main() {
 	logger := logger.Logger()
 	defer logger.Sync()
+	defer logger.Info("an application stopped")
 
 	// Create an instance of our handler which satisfies the generated interface
 	var converterApi = new(converterapi.Api)
 	var healthApi = new(healthapi.Api)
 
-	// Create a app server for handlers
+	// Create an app server for handlers
 	routerApp := router.NewMainServer()
 	handlerApi := handler.NewHandler(converterApi, healthApi)
 	handlerApi.Register(routerApp)

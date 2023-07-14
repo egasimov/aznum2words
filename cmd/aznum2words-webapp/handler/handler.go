@@ -32,27 +32,30 @@ func (h *Handler) Register(e *echo.Echo) {
 
 	// Add swagger UI endpoints
 	if config.GetConfig().DeployEnv != constant.PRODUCTION_ENVIRONMENT {
-
-		// Serve the OpenAPI documentation
-		e.GET("/openapi.yaml", func(c echo.Context) error {
-			// Read the OpenAPI specification YAML file
-			filePath := "api/open-api-spec.yaml"
-			openapiBytes, err := ioutil.ReadFile(filePath)
-			if err != nil {
-				return err
-			}
-
-			// Set the response headers
-			c.Response().Header().Set(echo.HeaderContentType, "application/x-yaml")
-			c.Response().Write(openapiBytes)
-			return nil
-		})
-
-		// Enable Swagger UI
-		e.GET("/swagger/*", echoSwagger.EchoWrapHandler(
-			func(c *echoSwagger.Config) {
-				c.URL = "/openapi.yaml"
-			}),
-		)
+		registerSwaggerUI(e)
 	}
+}
+
+func registerSwaggerUI(e *echo.Echo) {
+	// Serve the OpenAPI documentation
+	e.GET("/openapi.yaml", func(c echo.Context) error {
+		// Read the OpenAPI specification YAML file
+		filePath := "api/open-api-spec.yaml"
+		openapiBytes, err := ioutil.ReadFile(filePath)
+		if err != nil {
+			return err
+		}
+
+		// Set the response headers
+		c.Response().Header().Set(echo.HeaderContentType, "application/x-yaml")
+		c.Response().Write(openapiBytes)
+		return nil
+	})
+
+	// Enable Swagger UI
+	e.GET("/swagger/*", echoSwagger.EchoWrapHandler(
+		func(c *echoSwagger.Config) {
+			c.URL = "/openapi.yaml"
+		}),
+	)
 }

@@ -41,8 +41,8 @@ jobs:
     - name: Test CLI-APP integration
       run: make cliapp-test-integration-debug
 
-#    - name: Test Web-APP integration
-#      run: make webapp.test.integration.debug
+    - name: Test Web-APP integration
+      run: make webapp-test-integration
 
     - name: Run coverage
       run: go test -json ./... -coverprofile=coverage.txt -covermode=atomic

@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        go: ['1.19']
+        go: ['1.23']
         os: [ ubuntu-latest, macOS-latest, windows-latest ]    
     name: ${{ matrix.os }} Go ${{ matrix.go }} Tests        
     steps:
@@ -39,7 +39,7 @@ jobs:
       run: go build -v ./...
 
     - name: Test CLI-APP integration
-      run: make cliapp.test.integration.debug
+      run: make cliapp-test-integration-debug
 
 #    - name: Test Web-APP integration
 #      run: make webapp.test.integration.debug

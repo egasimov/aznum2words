@@ -154,7 +154,7 @@ _Qeyd: [open-api-spec contract](cmd/aznum2words-webapp/api/open-api-spec.yaml) i
 ## Test caseləri yoxlanması | Check test cases
 
 ```shell
-go test ./...
+go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
 ```
 
 ## Benchmark yoxlanılması

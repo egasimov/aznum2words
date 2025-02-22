@@ -90,38 +90,56 @@ func getKeyword(position int) (keyword string, err error) {
 }
 
 // The function intended to convert any sized positive integer numbers into words
-func convertIntPart(strArg string) string {
+func convertIntPart(strArg string) (string, error) {
 	str := removeSignMarkIfExists(strArg)
+	length := len(str)
 
-	//used to indicate level 10^3, 10^6
+	if length == 0 {
+		return "", nil
+	}
+
+	// Calculate how many triples will be processed
+	tripleCount := (length + 2) / 3
+	words := make([]string, tripleCount*2) // Worst case: each triple + a keyword
+	wordIndex := tripleCount*2 - 1         // Fill from the end to avoid reversing
+
 	pos := 1
-	wordBuilder := make([]string, 0)
-
-	//starting from right hand side, pick up triples and start process it
-	for i := len(str); i >= 0; i = i - 3 {
+	for i := length; i > 0; i -= 3 {
 		key, _ := getKeyword(pos)
 		pos++
 
-		var leftPointer int = i - 3
+		leftPointer := i - 3
 		if leftPointer < 0 {
 			leftPointer = 0
 		}
-		var rightPointer int = i
 
-		tripleAsWords, _ := tripleToWord(str[leftPointer:rightPointer])
-
-		//insert triple `tripleAsWords` in the front of result
-		if len(tripleAsWords) != 0 {
-			if len(key) != 0 {
-				wordBuilder = append([]string{tripleAsWords, key}, wordBuilder...)
-			} else {
-				wordBuilder = append([]string{tripleAsWords}, wordBuilder...)
-			}
+		tripleAsWords, err := tripleToWord(str[leftPointer:i])
+		if err != nil {
+			return "", err
 		}
 
+		if tripleAsWords != "" {
+			if key != "" {
+				words[wordIndex] = key
+				wordIndex--
+			}
+			words[wordIndex] = tripleAsWords
+			wordIndex--
+		}
 	}
 
-	return strings.Join(wordBuilder, " ")
+	// Construct the final string using strings.Builder
+	var builder strings.Builder
+	for i := wordIndex + 1; i < len(words); i++ {
+		if words[i] != "" {
+			if builder.Len() > 0 {
+				builder.WriteByte(' ')
+			}
+			builder.WriteString(words[i])
+		}
+	}
+
+	return builder.String(), nil
 }
 
 // convertOneDigitIntoWord("0") -> "sıfır"
@@ -145,38 +163,28 @@ func convertTwoDigitsIntoWord(twoDigitsWord string) (string, error) {
 		return "", ErrInvalidArgument
 	}
 
-	var textBuilder []string
-	var idxAt1 int
-	if i, err := strconv.Atoi(twoDigitsWord[1:]); err != nil {
+	var builder strings.Builder
+	first := true // To manage spacing between words
+
+	// Process tens place (index 0)
+	if val, err := strconv.Atoi(twoDigitsWord[0:1]); err != nil {
 		return "", err
-	} else {
-		idxAt1 = i
-	}
-	var wordForIdxAt1 string
-	if idxAt1 == 0 {
-		wordForIdxAt1 = ""
-	} else {
-		wordForIdxAt1 = digits[idxAt1]
+	} else if val != 0 {
+		builder.WriteString(tens[val])
+		first = false
 	}
 
-	if len(wordForIdxAt1) != 0 {
-		textBuilder = append([]string{wordForIdxAt1}, textBuilder...)
-	}
-
-	var idxAt0 int
-	if i, err := strconv.Atoi(twoDigitsWord[0:1]); err != nil {
+	// Process ones place (index 1)
+	if val, err := strconv.Atoi(twoDigitsWord[1:]); err != nil {
 		return "", err
-	} else {
-		idxAt0 = i
+	} else if val != 0 {
+		if !first {
+			builder.WriteString(" ")
+		}
+		builder.WriteString(digits[val])
 	}
 
-	wordForIdxAt0 := tens[idxAt0]
-
-	if len(wordForIdxAt0) != 0 {
-		textBuilder = append([]string{wordForIdxAt0}, textBuilder...)
-	}
-
-	return strings.Join(textBuilder, " "), nil
+	return builder.String(), nil
 }
 
 // convertThreeDigitsIntoWord("390") -> "üç yüz doxsan"
@@ -186,65 +194,42 @@ func convertThreeDigitsIntoWord(threeDigitsWord string) (string, error) {
 		return "", ErrInvalidArgument
 	}
 
-	var textBuilder []string
-	for i := len(threeDigitsWord) - 1; i >= 0; i-- {
+	// Use a strings.Builder to avoid heap allocations during string construction
+	var builder strings.Builder
+	first := true // To manage spacing between words
 
-		var word string
-		switch i {
-		case 2:
-			var ValAtIdx2 int
-			if i, err := strconv.Atoi(threeDigitsWord[2:]); err != nil {
-				return "", err
-			} else {
-				ValAtIdx2 = i
-			}
-			if ValAtIdx2 != 0 {
-				word = digits[ValAtIdx2]
-			}
-
-		case 1:
-			var ValAtIdx1 int
-			if i, err := strconv.Atoi(threeDigitsWord[1:2]); err != nil {
-				return "", err
-			} else {
-				ValAtIdx1 = i
-			}
-			if ValAtIdx1 != 0 {
-				word = tens[ValAtIdx1]
-			} else {
-				word = ""
-			}
-		case 0:
-			var ValAtIdx0 int
-			if i, err := strconv.Atoi(threeDigitsWord[0:1]); err != nil {
-				return "", err
-			} else {
-				ValAtIdx0 = i
-			}
-			isNonZero := ValAtIdx0 != 0
-
-			var prefix string
-			if isNonZero {
-				prefix = digits[ValAtIdx0]
-			} else {
-				prefix = ""
-			}
-
-			if len(prefix) > 0 {
-				word = prefix + " " + HundredAsString
-			} else {
-				word = ""
-			}
-		default:
-			return "", ErrUnexpectedBehaviour
-		}
-
-		if len(word) != 0 {
-			textBuilder = append([]string{word}, textBuilder...)
-		}
+	// Process hundreds place
+	if val, err := strconv.Atoi(threeDigitsWord[0:1]); err != nil {
+		return "", err
+	} else if val != 0 {
+		builder.WriteString(digits[val])
+		builder.WriteString(" ")
+		builder.WriteString(HundredAsString)
+		first = false
 	}
 
-	return strings.Join(textBuilder, " "), nil
+	// Process tens place
+	if val, err := strconv.Atoi(threeDigitsWord[1:2]); err != nil {
+		return "", err
+	} else if val != 0 {
+		if !first {
+			builder.WriteString(" ")
+		}
+		builder.WriteString(tens[val])
+		first = false
+	}
+
+	// Process ones place
+	if val, err := strconv.Atoi(threeDigitsWord[2:]); err != nil {
+		return "", err
+	} else if val != 0 {
+		if !first {
+			builder.WriteString(" ")
+		}
+		builder.WriteString(digits[val])
+	}
+
+	return builder.String(), nil
 }
 
 // The function intended to convert triples("1", "12", "123") into words' representation

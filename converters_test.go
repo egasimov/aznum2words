@@ -10,7 +10,10 @@ import (
 func Test_convertIntPart_WhereTwoDigitsNumber(t *testing.T) {
 	twoDigitsCases := fixtures.ConvertIntPartsForTwoDigitsNumbers()
 	for _, testcase := range twoDigitsCases {
-		actual := convertIntPart(strconv.Itoa(testcase.Given))
+		actual, err := convertIntPart(strconv.Itoa(testcase.Given))
+		if err != nil {
+			t.Errorf("For %s, err: %v", testcase.Description, err)
+		}
 
 		if !reflect.DeepEqual(actual, testcase.Expected) {
 			t.Errorf("For %s "+
@@ -28,8 +31,10 @@ func Test_convertIntPart_WhereTwoDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereSingleDigitsNumber(t *testing.T) {
 	singleDigitsCases := fixtures.ConvertIntPartsForSingleDigitsNumbers()
 	for _, testCase := range singleDigitsCases {
-		actual := convertIntPart(strconv.Itoa(testCase.Given))
-
+		actual, err := convertIntPart(strconv.Itoa(testCase.Given))
+		if err != nil {
+			t.Errorf("For %s, err: %v", testCase.Description, err)
+		}
 		if !reflect.DeepEqual(actual, testCase.Expected) {
 			t.Errorf("For %s "+
 				"\n Given: %d, len: %d "+
@@ -46,7 +51,10 @@ func Test_convertIntPart_WhereSingleDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereThreeDigitsNumber(t *testing.T) {
 	threeDigitsCases := fixtures.ConvertIntPartsForThreeDigitsNumbers()
 	for _, testCase := range threeDigitsCases {
-		actual := convertIntPart(strconv.Itoa(testCase.Given))
+		actual, err := convertIntPart(strconv.Itoa(testCase.Given))
+		if err != nil {
+			t.Errorf("For %s, err: %v", testCase.Description, err)
+		}
 
 		if !reflect.DeepEqual(actual, testCase.Expected) {
 			//t.Error("For", testCase.Description,
@@ -69,7 +77,10 @@ func Test_convertIntPart_WhereThreeDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereFourDigitsNumber(t *testing.T) {
 	fourDigitsCases := fixtures.ConvertIntPartsForFourDigitsNumbers()
 	for _, testCase := range fourDigitsCases {
-		actual := convertIntPart(strconv.Itoa(testCase.Given))
+		actual, err := convertIntPart(strconv.Itoa(testCase.Given))
+		if err != nil {
+			t.Errorf("For %s, err: %v", testCase.Description, err)
+		}
 
 		if !reflect.DeepEqual(actual, testCase.Expected) {
 			//t.Error("For", testCase.Description,
@@ -92,7 +103,10 @@ func Test_convertIntPart_WhereFourDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereFiveDigitsNumber(t *testing.T) {
 	fiveDigitsCases := fixtures.ConvertIntPartsForFiveDigitsNumbers()
 	for _, testCase := range fiveDigitsCases {
-		actual := convertIntPart(strconv.Itoa(testCase.Given))
+		actual, err := convertIntPart(strconv.Itoa(testCase.Given))
+		if err != nil {
+			t.Errorf("For %s, err: %v", testCase.Description, err)
+		}
 
 		if !reflect.DeepEqual(actual, testCase.Expected) {
 			//t.Error("For", testCase.Description,
@@ -115,7 +129,10 @@ func Test_convertIntPart_WhereFiveDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereSixDigitsNumber(t *testing.T) {
 	sixDigitsCases := fixtures.ConvertIntPartsForSixDigitsNumbers()
 	for _, testCase := range sixDigitsCases {
-		actual := convertIntPart(strconv.Itoa(testCase.Given))
+		actual, err := convertIntPart(strconv.Itoa(testCase.Given))
+		if err != nil {
+			t.Errorf("For %s, err: %v", testCase.Description, err)
+		}
 
 		if !reflect.DeepEqual(actual, testCase.Expected) {
 			//t.Error("For", testCase.Description,
@@ -138,7 +155,10 @@ func Test_convertIntPart_WhereSixDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereSevenDigitsNumber(t *testing.T) {
 	sevenDigitsCases := fixtures.ConvertIntPartsForSevenDigitsNumbers()
 	for _, testCase := range sevenDigitsCases {
-		actual := convertIntPart(strconv.Itoa(testCase.Given))
+		actual, err := convertIntPart(strconv.Itoa(testCase.Given))
+		if err != nil {
+			t.Errorf("For %s, err: %v", testCase.Description, err)
+		}
 
 		if !reflect.DeepEqual(actual, testCase.Expected) {
 			//t.Error("For", testCase.Description,
@@ -161,7 +181,10 @@ func Test_convertIntPart_WhereSevenDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereEightDigitsNumber(t *testing.T) {
 	eightDigitsCases := fixtures.ConvertIntPartsForEightDigitsNumbers()
 	for _, testCase := range eightDigitsCases {
-		actual := convertIntPart(strconv.Itoa(testCase.Given))
+		actual, err := convertIntPart(strconv.Itoa(testCase.Given))
+		if err != nil {
+			t.Errorf("For %s, err: %v", testCase.Description, err)
+		}
 
 		if !reflect.DeepEqual(actual, testCase.Expected) {
 			//t.Error("For", testCase.Description,
@@ -184,7 +207,10 @@ func Test_convertIntPart_WhereEightDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereNineDigitsNumber(t *testing.T) {
 	nineDigitsCases := fixtures.ConvertIntPartsForNineDigitsNumbers()
 	for _, testCase := range nineDigitsCases {
-		actual := convertIntPart(strconv.Itoa(testCase.Given))
+		actual, err := convertIntPart(strconv.Itoa(testCase.Given))
+		if err != nil {
+			t.Errorf("For %s, err: %v", testCase.Description, err)
+		}
 
 		if !reflect.DeepEqual(actual, testCase.Expected) {
 			//t.Error("For", testCase.Description,
@@ -207,7 +233,10 @@ func Test_convertIntPart_WhereNineDigitsNumber(t *testing.T) {
 func Test_convertIntPart_WhereTenDigitsNumber(t *testing.T) {
 	tenDigitsCases := fixtures.ConvertIntPartsForTenDigitsNumbers()
 	for _, testCase := range tenDigitsCases {
-		actual := convertIntPart(strconv.Itoa(testCase.Given))
+		actual, err := convertIntPart(strconv.Itoa(testCase.Given))
+		if err != nil {
+			t.Errorf("For %s, err: %v", testCase.Description, err)
+		}
 
 		if !reflect.DeepEqual(actual, testCase.Expected) {
 			//t.Error("For", testCase.Description,

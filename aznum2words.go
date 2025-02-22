@@ -88,7 +88,7 @@ func SpellNumber(numberAsStr string) (string, error) {
 // handleIntegerNumberConversion("-79594") -> "mənfi yetmiş doqquz min beş yüz doxsan dörd"
 // handleIntegerNumberConversion("81") -> "səksən bir"
 func handleIntegerNumberConversion(intValueAsStr string) (string, error) {
-	wordBuilder := make([]string, 0)
+	var builder strings.Builder
 
 	signKeyword, err := getSignSymbolAsWord(intValueAsStr)
 	if err != nil {
@@ -96,20 +96,24 @@ func handleIntegerNumberConversion(intValueAsStr string) (string, error) {
 	}
 
 	if signKeyword != "" {
-		wordBuilder = append(wordBuilder, signKeyword)
+		builder.WriteString(signKeyword)
+		builder.WriteString(" ")
 	}
 
 	intValueWithoutSign := removeSignMarkIfExists(intValueAsStr)
-	spelledInteger := convertIntPart(intValueWithoutSign)
+	spelledInteger, err := convertIntPart(intValueWithoutSign)
+	if err != nil {
+		return "", err
+	}
 
 	// handling case: intValueAsStr is '-0'
 	if intValueWithoutSign == "0" {
 		return spelledInteger, nil
 	}
 
-	wordBuilder = append(wordBuilder, spelledInteger)
+	builder.WriteString(spelledInteger)
 
-	return strings.Join(wordBuilder, " "), nil
+	return builder.String(), nil
 }
 
 // The function intended to handle the conversion of floating point numbers into words
@@ -124,7 +128,10 @@ func handleFloatingPointNumberConversion(floatValueAsStr string) (string, error)
 	floatValueAsStr = removeSignMarkIfExists(floatValueAsStr)
 	slices := strings.Split(floatValueAsStr, DecimalPointSeparator)
 
-	intPartAsWord := convertIntPart(slices[0])
+	intPartAsWord, err := convertIntPart(slices[0])
+	if err != nil {
+		return "", err
+	}
 
 	floatingPart := slices[1]
 
@@ -139,7 +146,11 @@ func handleFloatingPointNumberConversion(floatValueAsStr string) (string, error)
 	var floatingPartAsIntegerWithWord string
 	var suffix string
 	if len(floatingPart) != 0 {
-		floatingPartAsIntegerWithWord = convertIntPart(floatingPart)
+		floatingPartAsIntegerWithWord, err = convertIntPart(floatingPart)
+		if err != nil {
+			return "", err
+		}
+
 		cnt := len(floatingPart)
 		separatorKey := int(math.Pow10(cnt))
 		resultSuffix, ok := floatingPointDict[separatorKey]

@@ -15,6 +15,24 @@ type ConvertWordsToNumber struct {
 	Words string `json:"words"`
 }
 
+// ConvertDateToWords Convert date to words request representation
+type ConvertDateToWords struct {
+	// Date The date to be converted to words (format: YYYY-MM-DD)
+	Date string `json:"date"`
+}
+
+// ConvertTimeToWords Convert time to words request representation
+type ConvertTimeToWords struct {
+	// Time The time to be converted to words (format: HH:MM)
+	Time string `json:"time"`
+}
+
+// ConvertDateTimeToWords Convert date and time to words request representation
+type ConvertDateTimeToWords struct {
+	// Datetime The date and time to be converted to words (format: YYYY-MM-DD HH:MM)
+	Datetime string `json:"datetime"`
+}
+
 // Error Representation of an Error that can appear using the application.
 type Error struct {
 	// Code The code of an error that describes the Error.
@@ -54,6 +72,15 @@ type ConvertNumberToWordsRequest = ConvertNumberToWords
 // ConvertWordsToNumberRequest Convert words to number request representation
 type ConvertWordsToNumberRequest = ConvertWordsToNumber
 
+// ConvertDateToWordsRequest Convert date to words request representation
+type ConvertDateToWordsRequest = ConvertDateToWords
+
+// ConvertTimeToWordsRequest Convert time to words request representation
+type ConvertTimeToWordsRequest = ConvertTimeToWords
+
+// ConvertDateTimeToWordsRequest Convert date and time to words request representation
+type ConvertDateTimeToWordsRequest = ConvertDateTimeToWords
+
 // ConvertWordsToNumberParams defines parameters for ConvertWordsToNumber.
 type ConvertWordsToNumberParams struct {
 	// XCorrelationId The unique request identifier
@@ -66,8 +93,35 @@ type ConvertNumberToWordParams struct {
 	XCorrelationId *XCorrelationId `json:"x-correlation-id,omitempty"`
 }
 
+// ConvertDateToWordsParams defines parameters for ConvertDateToWords.
+type ConvertDateToWordsParams struct {
+	// XCorrelationId The unique request identifier
+	XCorrelationId *XCorrelationId `json:"x-correlation-id,omitempty"`
+}
+
+// ConvertTimeToWordsParams defines parameters for ConvertTimeToWords.
+type ConvertTimeToWordsParams struct {
+	// XCorrelationId The unique request identifier
+	XCorrelationId *XCorrelationId `json:"x-correlation-id,omitempty"`
+}
+
+// ConvertDateTimeToWordsParams defines parameters for ConvertDateTimeToWords.
+type ConvertDateTimeToWordsParams struct {
+	// XCorrelationId The unique request identifier
+	XCorrelationId *XCorrelationId `json:"x-correlation-id,omitempty"`
+}
+
 // ConvertWordsToNumberJSONRequestBody defines body for ConvertWordsToNumber for application/json ContentType.
 type ConvertWordsToNumberJSONRequestBody = ConvertWordsToNumber
 
 // ConvertNumberToWordJSONRequestBody defines body for ConvertNumberToWord for application/json ContentType.
 type ConvertNumberToWordJSONRequestBody = ConvertNumberToWords
+
+// ConvertDateToWordsJSONRequestBody defines body for ConvertDateToWords for application/json ContentType.
+type ConvertDateToWordsJSONRequestBody = ConvertDateToWords
+
+// ConvertTimeToWordsJSONRequestBody defines body for ConvertTimeToWords for application/json ContentType.
+type ConvertTimeToWordsJSONRequestBody = ConvertTimeToWords
+
+// ConvertDateTimeToWordsJSONRequestBody defines body for ConvertDateTimeToWords for application/json ContentType.
+type ConvertDateTimeToWordsJSONRequestBody = ConvertDateTimeToWords

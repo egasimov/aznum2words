@@ -17,38 +17,159 @@ tags:
 
 paths:
   /api/v1/conversion/to-word:
-    parameters:
-      - $ref: '#/components/parameters/x-correlation-id'
     post:
       summary: Convert number to words in Azerbaijani
-      description: Convert number to words in Azerbaijani
-      operationId: convertNumberToWord
-      tags:
-        - Converter
+      operationId: ConvertNumberToWord
       requestBody:
-        $ref: '#/components/requestBodies/ConvertNumberToWordsRequest'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvertNumberToWords'
       responses:
-        200:
-          $ref: '#/components/responses/ConvertNumberToWordsResponse'
-        default:
-          $ref: '#/components/responses/UnknownError'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConvertNumberToWordsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnknownError'
+      parameters:
+        - name: x-correlation-id
+          in: header
+          schema:
+            type: string
+          required: false
+          description: The unique request identifier
 
   /api/v1/conversion/to-number:
-    parameters:
-      - $ref: '#/components/parameters/x-correlation-id'
     post:
       summary: Convert words in Azerbaijani to number
-      description: Convert words in Azerbaijani to number
-      operationId: convertWordsToNumber
-      tags:
-        - Converter
+      operationId: ConvertWordsToNumber
       requestBody:
-        $ref: '#/components/requestBodies/ConvertWordsToNumberRequest'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvertWordsToNumber'
       responses:
-        200:
-          $ref: '#/components/responses/ConvertWordsToNumberResponse'
-        default:
-          $ref: '#/components/responses/UnknownError'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConvertWordsToNumberResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnknownError'
+      parameters:
+        - name: x-correlation-id
+          in: header
+          schema:
+            type: string
+          required: false
+          description: The unique request identifier
+
+  /api/v1/conversion/date-to-words:
+    post:
+      summary: Convert date to words in Azerbaijani
+      operationId: ConvertDateToWords
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvertDateToWords'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Word'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnknownError'
+      parameters:
+        - name: x-correlation-id
+          in: header
+          schema:
+            type: string
+          required: false
+          description: The unique request identifier
+
+  /api/v1/conversion/time-to-words:
+    post:
+      summary: Convert time to words in Azerbaijani
+      operationId: ConvertTimeToWords
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvertTimeToWords'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Word'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnknownError'
+      parameters:
+        - name: x-correlation-id
+          in: header
+          schema:
+            type: string
+          required: false
+          description: The unique request identifier
+
+  /api/v1/conversion/datetime-to-words:
+    post:
+      summary: Convert date and time to words in Azerbaijani
+      operationId: ConvertDateTimeToWords
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvertDateTimeToWords'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Word'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnknownError'
+      parameters:
+        - name: x-correlation-id
+          in: header
+          schema:
+            type: string
+          required: false
+          description: The unique request identifier
 
   /health:
     get:
@@ -115,6 +236,36 @@ components:
       properties:
         number:
           description: Words representation in number
+          type: string
+
+    ConvertDateToWords:
+      type: object
+      description: Convert date to words request representation
+      required:
+        - date
+      properties:
+        date:
+          description: The date to be converted to words (format: YYYY-MM-DD)
+          type: string
+
+    ConvertTimeToWords:
+      type: object
+      description: Convert time to words request representation
+      required:
+        - time
+      properties:
+        time:
+          description: The time to be converted to words (format: HH:MM)
+          type: string
+
+    ConvertDateTimeToWords:
+      type: object
+      description: Convert date and time to words request representation
+      required:
+        - datetime
+      properties:
+        datetime:
+          description: The date and time to be converted to words (format: YYYY-MM-DD HH:MM)
           type: string
 
   responses:

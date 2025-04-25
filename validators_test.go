@@ -1,7 +1,7 @@
 package aznum2words
 
 import (
-	"reflect"
+	"errors"
 	"testing"
 )
 
@@ -53,7 +53,14 @@ func Test_checkConstraints(t *testing.T) {
 	for _, testCase := range testCases {
 		actual := checkConstraints(testCase.given)
 
-		if !reflect.DeepEqual(actual, testCase.expected) {
+		if testCase.expected == nil {
+			if actual != nil {
+				t.Error("For", "Testing of  `checkConstraint` ",
+					"\n Given: ", testCase.given,
+					"\n Expected: ", testCase.expected,
+					"\n Got: ", actual)
+			}
+		} else if !errors.Is(actual, testCase.expected) {
 			t.Error("For", "Testing of  `checkConstraint` ",
 				"\n Given: ", testCase.given,
 				"\n Expected: ", testCase.expected,
@@ -123,7 +130,7 @@ func Test_validNumberRegex(t *testing.T) {
 	for _, testCase := range testCases {
 		actual := validateNumberRegex2.MatchString(testCase.given)
 
-		if !reflect.DeepEqual(actual, testCase.expected) {
+		if actual != testCase.expected {
 			t.Error("For", "Validation of  `validNumberRegex` ",
 				"\n Given: ", testCase.given,
 				"\n Expected: ", testCase.expected,
@@ -184,7 +191,14 @@ func Test_validateInput(t *testing.T) {
 	for _, testCase := range testCases {
 		actual := validateInput(testCase.given)
 
-		if !reflect.DeepEqual(actual, testCase.expectedErr) {
+		if testCase.expectedErr == nil {
+			if actual != nil {
+				t.Error("For", "Validation of  `validateInput` ",
+					"\n Given: ", testCase.given,
+					"\n Expected: ", testCase.expectedErr,
+					"\n Got: ", actual)
+			}
+		} else if !errors.Is(actual, testCase.expectedErr) {
 			t.Error("For", "Validation of  `validateInput` ",
 				"\n Given: ", testCase.given,
 				"\n Expected: ", testCase.expectedErr,

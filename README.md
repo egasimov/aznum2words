@@ -100,7 +100,7 @@ func main() {
 ```text
 mənfi doxsan beş min dörd yüz on iki
 mənfi iki tam on mində yeddi min iyirmi bir
-beş milyard altı yüz on bir milyon bir yüz on üç min iki yüz on
+beş milyard altı yüz on bir milyon yüz on üç min iki yüz on
 ```
 
 - - -
